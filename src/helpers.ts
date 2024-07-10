@@ -34,3 +34,9 @@ export function getLocationWeather({ lat, lon }: { lat: number; lon: number }) {
 export function isNumber(num: string) {
   return !isNaN(parseFloat(num)) && isFinite(+num);
 }
+
+export function getLoader(): HTMLDivElement {
+  const loaderWrapper = document.createElement("div");
+  loaderWrapper.innerHTML = `<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`;
+  return loaderWrapper;
+}

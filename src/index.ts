@@ -5,6 +5,7 @@ import { CoordsSource, Location } from "./models";
 import { AppState } from "./state/state";
 
 import "./css/index.scss";
+import "./css/loader.scss";
 
 function init(divId = "weather-widget-container") {
   const state = new AppState();
