@@ -1,4 +1,6 @@
-const apiKey = process.env.API_KEY;
-const apiUrl = process.env.API_URL;
+import {createCitySearchInput} from './location';
 
-console.log(apiKey, apiUrl);
+// const apiKey = process.env.API_KEY;
+// const apiUrl = process.env.API_URL;
+
+createCitySearchInput('weather-widget-container');
