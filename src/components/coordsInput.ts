@@ -1,28 +1,32 @@
 import {
   appendChildrenToParent,
-  assingStylesToElement,
   getInputElement,
-  getInputStyle,
   getLocationWeather,
   isNumber,
-  resetElementStyles,
-} from '../helpers';
-import {INPUT_BORDER_COLOR, LocationFunc} from '../models';
+} from "../helpers";
 
-type InputState = 'error' | 'success';
+import { LocationFunc } from "../models";
+
+import "../css/coords.scss";
+import "../css/input.scss";
+
+type InputState = "error" | "success";
 
 class Input {
   private _element: HTMLInputElement;
 
-  constructor(type: 'latitude' | 'longitude') {
+  constructor(type: "latitude" | "longitude") {
     this._element = getInputHelper(type);
-    this.state = 'success';
-    this._element.addEventListener('focus', () => (this.state = 'success'));
+    this.state = "success";
+    this._element.addEventListener("focus", () => (this.state = "success"));
   }
 
   set state(v: InputState) {
-    this._element.style.borderColor =
-      v === 'success' ? INPUT_BORDER_COLOR : 'red';
+    if (v === "success") {
+      this._element.classList.remove("error");
+    } else {
+      this._element.classList.add("error");
+    }
   }
 
   public get element(): HTMLInputElement {
@@ -30,28 +34,25 @@ class Input {
   }
 }
 
-const latInput = new Input('latitude');
-const lonInput = new Input('longitude');
+const latInput = new Input("latitude");
+const lonInput = new Input("longitude");
 
 export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
-  const submit = document.createElement('button');
-  submit.innerText = 'Search';
-  submit.type = 'submit';
+  const submit = document.createElement("button");
+  submit.classList.add("coords-form-button");
+  submit.innerText = "Search";
+  submit.type = "submit";
   const latEl: HTMLInputElement = latInput.element;
   const lonEl: HTMLInputElement = lonInput.element;
 
-  const container = appendChildrenToParent(document.createElement('form'), [
+  const container = appendChildrenToParent(document.createElement("form"), [
     latEl,
     lonEl,
     submit,
   ]);
+  container.classList.add("coords-form-container");
 
-  assingStylesToElement(container, {
-    display: 'flex',
-    gap: '4px',
-  });
-
-  container.addEventListener('submit', ev => {
+  container.addEventListener("submit", (ev) => {
     ev.preventDefault();
     const isLatError = !isNumber(latEl.value);
     const isLonError = !isNumber(lonEl.value);
@@ -62,7 +63,7 @@ export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
 
     const lat = +latEl.value;
     const lon = +lonEl.value;
-    const location = {lat, lon};
+    const location = { lat, lon };
 
     getLocationWeather(location);
     onLocationChange(location);
@@ -70,25 +71,25 @@ export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
   return container;
 }
 
-function getInputHelper(type: 'latitude' | 'longitude') {
-  const input: HTMLInputElement = resetElementStyles(getInputElement('text'));
+function getInputHelper(type: "latitude" | "longitude") {
+  const input: HTMLInputElement = getInputElement("text");
   input.name = type;
   input.id = type;
+  input.classList.add("coords-input", "lat-lon-input");
 
-  assingStylesToElement(input, {...getInputStyle(), minWidth: '250px'});
   input.placeholder = `Please enter your desired ${type}...`;
-  input.addEventListener('focus', () => {
-    input.style.borderColor = INPUT_BORDER_COLOR;
+  input.addEventListener("focus", () => {
+    input.classList.remove("error");
   });
   return input;
 }
 
 function handleLatLonError(isLatError: boolean, isLonError: boolean) {
   if (isLatError) {
-    latInput.state = 'error';
+    latInput.state = "error";
   }
 
   if (isLonError) {
-    lonInput.state = 'error';
+    lonInput.state = "error";
   }
 }

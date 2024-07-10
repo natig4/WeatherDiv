@@ -1,10 +1,12 @@
-import {getDataSourceButtons} from './components/viewSelector';
-import {appendChildrenToParent, assingStylesToElement} from './helpers';
-import {renderLocationForm} from './location';
-import {CoordsSource, Location} from './models';
-import {AppState} from './state/state';
+import { getDataSourceButtons } from "./components/viewSelector";
+import { appendChildrenToParent } from "./helpers";
+import { renderLocationForm } from "./location";
+import { CoordsSource, Location } from "./models";
+import { AppState } from "./state/state";
 
-function init(divId = 'weather-widget-container') {
+import "./css/index.scss";
+
+function init(divId = "weather-widget-container") {
   const state = new AppState();
   addHeader(divId, state);
 }
@@ -20,20 +22,14 @@ function addHeader(divId: string, state: AppState) {
 }
 
 function renderHeaderView(container: HTMLElement, state: AppState) {
-  container.innerHTML = '';
+  container.innerHTML = "";
 
-  const coordsSource = document.createElement('div');
-  assingStylesToElement(coordsSource, {
-    display: 'flex',
-    gap: '16px',
-    justifyContent: 'center',
-  });
+  const coordsSource = document.createElement("div");
+  coordsSource.classList.add("coords-source");
 
-  const heading = document.createElement('h1');
-  heading.innerText = 'Please select location';
-  assingStylesToElement(heading, {
-    'text-align': 'center',
-  });
+  const heading = document.createElement("h1");
+  heading.innerText = "Please select location";
+  heading.classList.add("app-header");
 
   container.appendChild(heading);
   container.appendChild(
@@ -50,7 +46,7 @@ function renderHeaderView(container: HTMLElement, state: AppState) {
   if (state.selectedLocation) {
     renderWeatherInfo(container, state.selectedLocation);
   } else {
-    const weatherContainer = document.querySelector('.weather-info');
+    const weatherContainer = document.querySelector(".weather-info");
 
     weatherContainer && container.removeChild(weatherContainer);
   }
@@ -67,21 +63,17 @@ function renderHeaderView(container: HTMLElement, state: AppState) {
 }
 
 function renderWeatherInfo(container: HTMLElement, location: Location) {
-  const weatherInfo = document.createElement('div');
-  weatherInfo.classList.add('weather-info');
-  assingStylesToElement(weatherInfo, {
-    marginTop: '20px',
-    textAlign: 'center',
-  });
+  const weatherInfo = document.createElement("div");
+  weatherInfo.classList.add("weather-info");
 
-  const locationName = document.createElement('h2');
+  const locationName = document.createElement("h2");
   locationName.textContent = `Weather for ${
     location.name || `${location.lat}, ${location.lon}`
   }`;
   weatherInfo.appendChild(locationName);
 
-  const placeholder = document.createElement('p');
-  placeholder.textContent = 'Weather data will be displayed here.';
+  const placeholder = document.createElement("p");
+  placeholder.textContent = "Weather data will be displayed here.";
   weatherInfo.appendChild(placeholder);
 
   container.appendChild(weatherInfo);

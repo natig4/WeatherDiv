@@ -1,16 +1,15 @@
-import {getLatLonForm} from './components/coordsInput';
-import {getSearchInput} from './components/search';
-import {appendChildrenToParent} from './helpers';
-import {CoordsSource, LocationFunc} from './models';
+import { getLatLonForm } from "./components/coordsInput";
+import { getSearchInput } from "./components/search";
+import { CoordsSource, LocationFunc } from "./models";
 
 export function renderLocationForm(
   viewSource: CoordsSource,
   onLocationChange: LocationFunc
-): HTMLDivElement {
+): HTMLDivElement | HTMLFormElement {
   const currView =
-    viewSource === 'location'
+    viewSource === "location"
       ? getSearchInput(onLocationChange)
       : getLatLonForm(onLocationChange);
 
-  return appendChildrenToParent(document.createElement('div'), [currView]);
+  return currView;
 }

@@ -7,7 +7,7 @@ const isProduction = process.env.NODE_ENV === "production";
 module.exports = {
   entry: ["./src/index"],
   output: {
-    filename: "main.js",
+    filename: "weather-div.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
