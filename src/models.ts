@@ -1,5 +1,5 @@
-type InputType = 'text' | 'number' | 'search';
-interface ICity {
+export type InputType = 'text' | 'search';
+export interface ICity {
   place_id: number;
   licence: string;
   osm_type: string;
@@ -15,3 +15,5 @@ interface ICity {
   display_name: string;
   boundingbox: string[];
 }
+
+export const INPUT_BORDER_COLOR = '#007bff';

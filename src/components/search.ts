@@ -4,32 +4,27 @@ import {
   debounce,
   getBorderRadius,
   getInputElement,
+  getInputStyle,
   getLocationWeather,
   resetElementStyles,
 } from '../helpers';
+import {ICity} from '../models';
 
 async function searchLocation(query: string): Promise<ICity[]> {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
 
   try {
     const response = await fetch(url);
-    const data = await response.json();
-    console.log('data', data);
-    return data;
+    return await response.json();
   } catch (error) {
     console.error('Error:', error);
     return [];
   }
 }
 
-export function createCitySearchInput(divId: string): void {
+export function getSearchInput(): HTMLDivElement {
   const input: HTMLInputElement = resetElementStyles(getInputElement('search'));
-  assingStylesToElement(input, {
-    borderRadius: getBorderRadius(),
-    padding: '4px',
-    outline: 'none',
-    border: '1px solid #007bff',
-  });
+  assingStylesToElement(input, getInputStyle());
   input.placeholder = 'Enter city or country...';
 
   const resultsDiv: HTMLDivElement = document.createElement('div');
@@ -46,39 +41,43 @@ export function createCitySearchInput(divId: string): void {
   const styledResultElement = getStyledSearchResultElement();
 
   const debouncedSearch = debounce(async (query: string) => {
-    if (query.length > 2) {
-      const locations = await searchLocation(query);
-      const locationsHtml = locations.length
-        ? getLocationsHtml(locations, styledResultElement)
-        : getResultsNotFoundP(styledResultElement);
-
-      resultsDiv.innerHTML = locationsHtml;
-      resultsDiv.addEventListener('click', ev => {
-        const res = handleResultClick(ev);
-        if (res) {
-          input.value = res.name;
-          resultsDiv.innerHTML = '';
-          getLocationWeather({lat: res.lat, lon: res.lon});
-        }
-      });
-    } else {
-      resultsDiv.innerHTML = getResultsNotFoundP(
-        styledResultElement,
-        'Please search for more than 2 characters'
-      );
-    }
+    handleSearch(query, styledResultElement, resultsDiv);
   }, 300);
+
+  resultsDiv.addEventListener('click', ev => {
+    const res = handleResultClick(ev);
+    if (res) {
+      input.value = res.name;
+      resultsDiv.innerHTML = '';
+      getLocationWeather({lat: res.lat, lon: res.lon});
+    }
+  });
 
   input.addEventListener('input', () => {
     const query = input.value;
     debouncedSearch(query);
   });
+  return searchContainer;
+}
 
-  const targetDiv: HTMLElement | null = divId
-    ? document.getElementById(divId)
-    : document.body;
+async function handleSearch(
+  query: string,
+  result: HTMLParagraphElement,
+  resultsContainer: HTMLDivElement
+) {
+  if (query.length > 2) {
+    const locations = await searchLocation(query);
+    const locationsHtml = locations.length
+      ? getLocationsHtml(locations, result)
+      : getResultsNotFoundP(result);
 
-  targetDiv && targetDiv.appendChild(searchContainer);
+    resultsContainer.innerHTML = locationsHtml;
+  } else {
+    resultsContainer.innerHTML = getResultsNotFoundP(
+      result,
+      'Please search for more than 2 characters'
+    );
+  }
 }
 
 function getSearchContainerElement() {
@@ -89,7 +88,6 @@ function getSearchContainerElement() {
     flexDirection: 'column',
     gap: '2px',
     borderRadius: getBorderRadius(),
-    padding: '4px',
     maxWidth: '300px',
   });
 
@@ -135,6 +133,7 @@ function handleResultClick(
   ev: MouseEvent
 ): {lat: number; lon: number; name: string} | undefined {
   const target = ev.target as HTMLElement;
+  console.log('target', target);
 
   if (target.tagName.toLowerCase() === 'p') {
     ev.stopPropagation();
