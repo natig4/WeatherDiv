@@ -88,7 +88,7 @@ function getSearchContainerElement() {
     flexDirection: 'column',
     gap: '2px',
     borderRadius: getBorderRadius(),
-    maxWidth: '300px',
+    width: '300px',
   });
 
   return searchContainer;
@@ -133,7 +133,6 @@ function handleResultClick(
   ev: MouseEvent
 ): {lat: number; lon: number; name: string} | undefined {
   const target = ev.target as HTMLElement;
-  console.log('target', target);
 
   if (target.tagName.toLowerCase() === 'p') {
     ev.stopPropagation();

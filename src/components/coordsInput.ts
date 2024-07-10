@@ -71,6 +71,7 @@ export function getLatLonForm(): HTMLFormElement {
 function getInputHelper(type: 'latitude' | 'longitude') {
   const input: HTMLInputElement = resetElementStyles(getInputElement('text'));
   input.name = type;
+  input.id = type;
 
   assingStylesToElement(input, {...getInputStyle(), minWidth: '250px'});
   input.placeholder = `Please enter your desired ${type}...`;

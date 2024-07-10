@@ -1,18 +1,11 @@
 import {getLatLonForm} from './components/coordsInput';
 import {getSearchInput} from './components/search';
 import {appendChildrenToParent} from './helpers';
+import {CoordsSource} from './models';
 
-export function addLocationForm(divId: string): void {
-  const search = getSearchInput();
-  const latLonForm = getLatLonForm();
-  const inputsContainer = appendChildrenToParent(
-    document.createElement('div'),
-    [search, latLonForm]
-  );
+export function renderLocationForm(viewSource: CoordsSource): HTMLDivElement {
+  const currView =
+    viewSource === 'location' ? getSearchInput() : getLatLonForm();
 
-  const targetDiv: HTMLElement | null = divId
-    ? document.getElementById(divId)
-    : document.body;
-
-  targetDiv && targetDiv.appendChild(inputsContainer);
+  return appendChildrenToParent(document.createElement('div'), [currView]);
 }

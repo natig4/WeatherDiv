@@ -1,4 +1,6 @@
-export type InputType = 'text' | 'search';
+export type InputType = 'text' | 'search' | 'radio';
+export type CoordsSource = 'location' | 'coordinates';
+
 export interface ICity {
   place_id: number;
   licence: string;
