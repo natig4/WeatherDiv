@@ -45,3 +45,8 @@ export function assingStylesToElement<T extends HTMLElement>(
   Object.assign(element.style, style);
   return element;
 }
+
+export function getLocationWeather({lat, lon}: {lat: number; lon: number}) {
+  console.log('lat', lat);
+  console.log('lon', lon);
+}

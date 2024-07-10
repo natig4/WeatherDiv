@@ -4,6 +4,7 @@ import {
   debounce,
   getBorderRadius,
   getInputElement,
+  getLocationWeather,
   resetElementStyles,
 } from '../helpers';
 
@@ -52,7 +53,14 @@ export function createCitySearchInput(divId: string): void {
         : getResultsNotFoundP(styledResultElement);
 
       resultsDiv.innerHTML = locationsHtml;
-      resultsDiv.addEventListener('click', handleResultClick);
+      resultsDiv.addEventListener('click', ev => {
+        const res = handleResultClick(ev);
+        if (res) {
+          input.value = res.name;
+          resultsDiv.innerHTML = '';
+          getLocationWeather({lat: res.lat, lon: res.lon});
+        }
+      });
     } else {
       resultsDiv.innerHTML = getResultsNotFoundP(
         styledResultElement,
@@ -82,6 +90,7 @@ function getSearchContainerElement() {
     gap: '2px',
     borderRadius: getBorderRadius(),
     padding: '4px',
+    maxWidth: '300px',
   });
 
   return searchContainer;
@@ -89,10 +98,11 @@ function getSearchContainerElement() {
 
 function getLocationsHtml(locations: ICity[], p: HTMLParagraphElement): string {
   return locations
-    .map(({lat, lon, display_name}) => {
+    .map(({lat, lon, display_name, name}) => {
       p.cloneNode();
       p.dataset.lat = lat;
       p.dataset.lon = lon;
+      p.dataset.name = name;
       p.innerText = display_name;
       p.style.cursor = 'pointer';
 
@@ -121,14 +131,17 @@ function getResultsNotFoundP(
   return noResults.outerHTML;
 }
 
-function handleResultClick(ev: MouseEvent) {
+function handleResultClick(
+  ev: MouseEvent
+): {lat: number; lon: number; name: string} | undefined {
   const target = ev.target as HTMLElement;
+
   if (target.tagName.toLowerCase() === 'p') {
     ev.stopPropagation();
-    const lat = target.dataset.lat;
-    const lon = target.dataset.lon;
+    const {lat, lon, name} = target.dataset;
+
     if (lat && lon) {
-      console.log(`Lat ${lat}, Lon ${lon}`);
+      return {lat: +lat, lon: +lon, name: name as string};
     }
   }
 }
