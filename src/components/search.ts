@@ -8,7 +8,7 @@ import {
   getLocationWeather,
   resetElementStyles,
 } from '../helpers';
-import {ICity} from '../models';
+import {ICity, LocationFunc} from '../models';
 
 async function searchLocation(query: string): Promise<ICity[]> {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
@@ -22,7 +22,7 @@ async function searchLocation(query: string): Promise<ICity[]> {
   }
 }
 
-export function getSearchInput(): HTMLDivElement {
+export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
   const input: HTMLInputElement = resetElementStyles(getInputElement('search'));
   assingStylesToElement(input, getInputStyle());
   input.placeholder = 'Enter city or country...';
@@ -49,7 +49,9 @@ export function getSearchInput(): HTMLDivElement {
     if (res) {
       input.value = res.name;
       resultsDiv.innerHTML = '';
-      getLocationWeather({lat: res.lat, lon: res.lon});
+      const location = {lat: res.lat, lon: res.lon, name: res.name};
+      getLocationWeather(location);
+      onLocationChange(location);
     }
   });
 

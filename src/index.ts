@@ -1,11 +1,13 @@
-// const apiKey = process.env.API_KEY;
-// const apiUrl = process.env.API_URL;
-
 import {getDataSourceButtons} from './components/viewSelector';
 import {appendChildrenToParent, assingStylesToElement} from './helpers';
 import {renderLocationForm} from './location';
-import {CoordsSource} from './models';
+import {CoordsSource, Location} from './models';
 import {AppState} from './state/state';
+
+function init(divId = 'weather-widget-container') {
+  const state = new AppState();
+  addHeader(divId, state);
+}
 
 function addHeader(divId: string, state: AppState) {
   const targetDiv: HTMLElement | null = divId
@@ -13,28 +15,13 @@ function addHeader(divId: string, state: AppState) {
     : document.body;
 
   if (targetDiv) {
-    renderView(targetDiv, state.viewSource, handleViewChange);
-  }
-
-  function handleViewChange(source: CoordsSource) {
-    if (targetDiv) {
-      targetDiv.innerHTML = '';
-      renderView(targetDiv, source, handleViewChange);
-    }
+    renderHeaderView(targetDiv, state);
   }
 }
 
-function init(divId = 'weather-widget-container') {
-  const state = new AppState();
+function renderHeaderView(container: HTMLElement, state: AppState) {
+  container.innerHTML = '';
 
-  addHeader(divId, state);
-}
-
-function renderView(
-  container: HTMLElement,
-  source: CoordsSource,
-  handleViewChange: (source: CoordsSource) => void
-) {
   const coordsSource = document.createElement('div');
   assingStylesToElement(coordsSource, {
     display: 'flex',
@@ -51,10 +38,53 @@ function renderView(
   container.appendChild(heading);
   container.appendChild(
     appendChildrenToParent(coordsSource, [
-      renderLocationForm(source),
-      getDataSourceButtons(source, handleViewChange),
+      renderLocationForm(state.viewSource, handleLocationChange),
+      getDataSourceButtons(
+        state.viewSource,
+        handleViewChange,
+        handleLocationChange
+      ),
     ])
   );
+
+  if (state.selectedLocation) {
+    renderWeatherInfo(container, state.selectedLocation);
+  } else {
+    const weatherContainer = document.querySelector('.weather-info');
+
+    weatherContainer && container.removeChild(weatherContainer);
+  }
+
+  function handleViewChange(source: CoordsSource) {
+    state.viewSource = source;
+    renderHeaderView(container, state);
+  }
+
+  function handleLocationChange(location: Location | null) {
+    state.selectedLocation = location;
+    renderHeaderView(container, state);
+  }
+}
+
+function renderWeatherInfo(container: HTMLElement, location: Location) {
+  const weatherInfo = document.createElement('div');
+  weatherInfo.classList.add('weather-info');
+  assingStylesToElement(weatherInfo, {
+    marginTop: '20px',
+    textAlign: 'center',
+  });
+
+  const locationName = document.createElement('h2');
+  locationName.textContent = `Weather for ${
+    location.name || `${location.lat}, ${location.lon}`
+  }`;
+  weatherInfo.appendChild(locationName);
+
+  const placeholder = document.createElement('p');
+  placeholder.textContent = 'Weather data will be displayed here.';
+  weatherInfo.appendChild(placeholder);
+
+  container.appendChild(weatherInfo);
 }
 
 init();

@@ -7,7 +7,7 @@ import {
   isNumber,
   resetElementStyles,
 } from '../helpers';
-import {INPUT_BORDER_COLOR} from '../models';
+import {INPUT_BORDER_COLOR, LocationFunc} from '../models';
 
 type InputState = 'error' | 'success';
 
@@ -33,7 +33,7 @@ class Input {
 const latInput = new Input('latitude');
 const lonInput = new Input('longitude');
 
-export function getLatLonForm(): HTMLFormElement {
+export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
   const submit = document.createElement('button');
   submit.innerText = 'Search';
   submit.type = 'submit';
@@ -62,8 +62,10 @@ export function getLatLonForm(): HTMLFormElement {
 
     const lat = +latEl.value;
     const lon = +lonEl.value;
+    const location = {lat, lon};
 
-    getLocationWeather({lat, lon});
+    getLocationWeather(location);
+    onLocationChange(location);
   });
   return container;
 }

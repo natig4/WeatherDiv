@@ -19,3 +19,11 @@ export interface ICity {
 }
 
 export const INPUT_BORDER_COLOR = '#007bff';
+
+export interface Location {
+  name?: string;
+  lat: number;
+  lon: number;
+}
+
+export type LocationFunc = (location: Location | null) => void;

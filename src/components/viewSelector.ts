@@ -1,9 +1,10 @@
 import {appendChildrenToParent, assingStylesToElement} from '../helpers';
-import {CoordsSource} from '../models';
+import {CoordsSource, LocationFunc} from '../models';
 
 export function getDataSourceButtons(
   viewSource: CoordsSource,
-  handleViewChange: (source: CoordsSource) => void
+  handleViewChange: (source: CoordsSource) => void,
+  onLocationChange: LocationFunc
 ) {
   const options: CoordsSource[] = ['location', 'coordinates'];
 
@@ -23,6 +24,7 @@ export function getDataSourceButtons(
     radio.addEventListener('change', function () {
       if (this.checked) {
         handleViewChange(option);
+        onLocationChange(null);
       }
     });
 
