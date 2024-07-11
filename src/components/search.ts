@@ -2,6 +2,7 @@ import {
   appendChildrenToParent,
   debounce,
   getInputElement,
+  getInputWithLabel,
   getLocationWeather,
 } from "../helpers";
 import { ICity, LocationFunc } from "../models";
@@ -27,18 +28,11 @@ export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
     ["coords-input", "search-input"]
   );
 
-  const label = document.createElement("label");
-  label.htmlFor = inputName;
-  label.textContent = inputName.charAt(0).toUpperCase() + inputName.slice(1);
+  const inputContainer = getInputWithLabel(input, inputName);
+  inputContainer.classList.add("coords-input-container");
 
   const resultsDiv: HTMLDivElement = document.createElement("div");
   resultsDiv.classList.add("locations-results-container", "hidden");
-
-  const inputContainer = appendChildrenToParent(document.createElement("div"), [
-    label,
-    input,
-  ]);
-  inputContainer.classList.add("coords-input-container");
 
   const searchContainer = appendChildrenToParent(
     document.createElement("div"),
