@@ -166,10 +166,10 @@ export function getWeatherForUi(
   weather: IWeatherAPIResponse,
   selectedTemp: TempDisplay
 ) {
-  const { name } = weather.location;
+  const { name, country } = weather.location;
 
   return {
-    name,
+    name: `${name}, ${country}`,
     temps: calculateAvgTemp(weather.forecast.forecastday, selectedTemp),
   };
 }
@@ -219,7 +219,7 @@ function calculateAvgTemp(days: Forecastday[], selectedTemp: TempDisplay) {
 
     const temp = getFormattedNum(tempSum / temps.length);
 
-    const recommendation = getRecommendationByTemp(+temp);
+    const recommendation = getRecommendationByTemp(+temp, selectedTemp);
     return {
       day,
       temp: temp + ` ${selectedTemp === "Celsius" ? "℃" : "℉"}`,
@@ -228,7 +228,11 @@ function calculateAvgTemp(days: Forecastday[], selectedTemp: TempDisplay) {
   });
 }
 
-function getRecommendationByTemp(temp: number): ImageSourceKeys {
+function getRecommendationByTemp(
+  temp: number,
+  selectedTemp: TempDisplay
+): ImageSourceKeys {
+  temp = selectedTemp === "Celsius" ? temp : (temp - 32) * (5 / 9);
   if (temp < 0) {
     return ImageSourceKeys.snow;
   }
