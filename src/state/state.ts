@@ -1,9 +1,9 @@
-import {CoordsSource, Location} from '../models';
+import { CoordsSource, SelectedLocation } from "../models";
 
 export class AppState {
   private _isLoading = false;
-  private _viewSource: CoordsSource = 'location';
-  private _selectedLocation: Location | null = null;
+  private _viewSource: CoordsSource = "location";
+  private _selectedLocation: SelectedLocation = null;
 
   set isLoading(isLoading: boolean) {
     this._isLoading = isLoading;
@@ -21,11 +21,11 @@ export class AppState {
     return this._viewSource;
   }
 
-  set selectedLocation(location: Location | null) {
+  set selectedLocation(location: SelectedLocation) {
     this._selectedLocation = location;
   }
 
-  get selectedLocation(): Location | null {
+  get selectedLocation(): SelectedLocation {
     return this._selectedLocation;
   }
 }

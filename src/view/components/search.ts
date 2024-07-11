@@ -4,8 +4,8 @@ import {
   getInputElement,
   getInputWithLabel,
   getLocationWeather,
-} from "../helpers";
-import { ICity, LocationFunc } from "../models";
+} from "../../helpers";
+import { ICity, LocationFunc } from "../../models";
 
 async function searchLocation(query: string): Promise<ICity[]> {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;

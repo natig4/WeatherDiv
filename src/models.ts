@@ -18,10 +18,12 @@ export interface ICity {
   boundingbox: string[];
 }
 
-export interface Location {
+interface ILocation {
   name?: string;
   lat: number;
   lon: number;
 }
 
-export type LocationFunc = (location: Location | null) => void;
+export type SelectedLocation = ILocation | null;
+
+export type LocationFunc = (location: SelectedLocation) => void;

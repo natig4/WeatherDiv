@@ -1,5 +1,5 @@
-import { appendChildrenToParent } from "../helpers";
-import { CoordsSource, LocationFunc } from "../models";
+import { appendChildrenToParent } from "../../helpers";
+import { CoordsSource, LocationFunc } from "../../models";
 
 export function getDataSourceButtons(
   viewSource: CoordsSource,
