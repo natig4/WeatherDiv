@@ -12,10 +12,12 @@ This widget displays weather information for a specified location.
 
 2.initialize the widget with your API key:
 
+```html
 <div id="my-weather-div"></div>
 <script>
-  WeatherWidget.init('YOUR_API_KEY_HERE', 'my-weather-div');
+  WeatherWidget.init("YOUR_API_KEY_HERE", "my-weather-div");
 </script>
+```
 
 Note: If you don't specify a div ID, the widget will be appended to the body.
 
