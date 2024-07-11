@@ -1,16 +1,20 @@
 # Weather Widget
 
-This widget displays weather information for a specified location.
+This Project produces a widget displays weather information for a specified location.
 
 ## Usage
 
-1. Include the script in your HTML:
+1. Clone this repo, run npm install and npm run build to get the JS file
+
+2. Copy the file from the dist folder to your project.
+
+3. Include the script in your HTML:
 
    ```html
    <script src="path/to/weather-widget.js"></script>
    ```
 
-2. initialize the widget with your API key:
+4. initialize the widget with your API key:
 
 ```html
 <div id="my-weather-div"></div>
