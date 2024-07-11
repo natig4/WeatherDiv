@@ -2,6 +2,8 @@ import {
   API_TIMEFRAME,
   API_URL,
   Forecastday,
+  ImageSource,
+  ImageSourceKeys,
   InputType,
   IWeatherAPIResponse,
   TempDisplay,
@@ -21,13 +23,17 @@ export function getInputElement(
   return input;
 }
 
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export function getInputWithLabel(
   input: HTMLInputElement,
   name: string
 ): HTMLDivElement {
   const label = document.createElement("label");
   label.htmlFor = name;
-  label.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+  label.textContent = capitalize(name);
   const inputContainer = appendChildrenToParent(document.createElement("div"), [
     label,
     input,
@@ -168,6 +174,23 @@ export function getWeatherForUi(
   };
 }
 
+export function getImgByRecommendation(
+  recommendation: ImageSourceKeys
+): ImageSource {
+  switch (recommendation) {
+    case ImageSourceKeys.cloud:
+      return ImageSource.cloud;
+    case ImageSourceKeys.cold:
+      return ImageSource.cold;
+    case ImageSourceKeys.hot:
+      return ImageSource.hot;
+    case ImageSourceKeys.rain:
+      return ImageSource.rain;
+    case ImageSourceKeys.snow:
+      return ImageSource.snow;
+  }
+}
+
 function calculateAvgTemp(days: Forecastday[], selectedTemp: TempDisplay) {
   const adjustedDays = days.reduce(
     (weekDays, day) => {
@@ -205,10 +228,21 @@ function calculateAvgTemp(days: Forecastday[], selectedTemp: TempDisplay) {
   });
 }
 
-function getRecommendationByTemp(temp: number) {
-  console.log("temp", temp);
+function getRecommendationByTemp(temp: number): ImageSourceKeys {
+  if (temp < 0) {
+    return ImageSourceKeys.snow;
+  }
+  if (temp < 10) {
+    return ImageSourceKeys.cold;
+  }
+  if (temp < 17) {
+    return ImageSourceKeys.rain;
+  }
+  if (temp < 23) {
+    return ImageSourceKeys.cloud;
+  }
 
-  return "sunny";
+  return ImageSourceKeys.hot;
 }
 
 function getDayOfWeek(dateStr: string) {

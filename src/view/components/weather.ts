@@ -1,6 +1,8 @@
 import {
   appendChildrenToParent,
+  capitalize,
   generateTemperatureUnitDropdown,
+  getImgByRecommendation,
   getLoader,
   getWeatherForUi,
 } from "../../helpers";
@@ -88,20 +90,21 @@ function renderDayHelper(weather: IDayWeather) {
   dayName.innerText = weather.day;
   dayName.classList.add("header");
 
-  const img = document.createElement("img");
-  img.src = "";
-
   const recommendation = document.createElement("p");
-  recommendation.innerText = weather.recommendation;
+  recommendation.innerText = capitalize(weather.recommendation);
+
+  const img = document.createElement("img");
+  img.src = getImgByRecommendation(weather.recommendation);
+
+  const imgContainer = appendChildrenToParent(document.createElement("div"), [
+    img,
+    recommendation,
+  ]);
+  imgContainer.classList.add("img-container");
 
   const temp = document.createElement("h4");
   temp.classList.add("footer");
   temp.textContent = `${weather.temp}`;
 
-  return appendChildrenToParent(dayContainer, [
-    dayName,
-    img,
-    recommendation,
-    temp,
-  ]);
+  return appendChildrenToParent(dayContainer, [dayName, imgContainer, temp]);
 }
