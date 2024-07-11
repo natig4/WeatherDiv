@@ -56,7 +56,7 @@ function renderWeatherInfoHelper(
 
   const locationName = document.createElement("h2");
   const uILocation = getWeatherForUi(location, selectedTemp);
-  locationName.textContent = `Weather for ${uILocation.name}`;
+  locationName.textContent = `Weather predication in ${uILocation.name}`;
 
   const days = uILocation.temps.map((weather) => renderDayHelper(weather));
   const daysContainer = appendChildrenToParent(

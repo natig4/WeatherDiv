@@ -16,7 +16,7 @@ export function renderInputs(
   coordsSource.classList.add("coords-source");
 
   const heading = document.createElement("h1");
-  heading.innerText = "Please select location";
+  heading.innerText = "Please select a location";
   heading.classList.add("app-header");
 
   container.appendChild(heading);
