@@ -10,7 +10,7 @@ This widget displays weather information for a specified location.
    <script src="path/to/weather-widget.js"></script>
    ```
 
-2.initialize the widget with your API key:
+2. initialize the widget with your API key:
 
 ```html
 <div id="my-weather-div"></div>
@@ -28,6 +28,8 @@ Once logged in, you can find your API key in the dashboard
 
 ## Features
 
-Enter a city name or coordinates to get weather information
-Displays average temperature for each day of the week over the next 2 weeks
-Toggle between Celsius and Fahrenheit
+Enter a city name or coordinates to get weather information.
+`<br>`
+Displays average temperature for each day of the week over the next 2 weeks.
+`<br>`
+Toggle between Celsius and Fahrenheit.
