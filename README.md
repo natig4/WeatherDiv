@@ -28,8 +28,6 @@ Once logged in, you can find your API key in the dashboard
 
 ## Features
 
-Enter a city name or coordinates to get weather information.
-`<br>`
-Displays average temperature for each day of the week over the next 2 weeks.
-`<br>`
+Enter a city name or coordinates to get weather information.  
+Displays average temperature for each day of the week over the next 2 weeks.  
 Toggle between Celsius and Fahrenheit.
