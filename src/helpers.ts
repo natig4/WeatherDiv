@@ -101,6 +101,30 @@ export async function fetchData(url: string): Promise<unknown> {
   }
 }
 
+export function generateTemperatureUnitDropdown(
+  options: string[],
+  selectedOption: string,
+  onchangeFunc: (option: string) => void
+) {
+  const selectElement = document.createElement("select");
+
+  options.forEach((optionText) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = optionText;
+    optionElement.textContent = optionText;
+    selectElement.appendChild(optionElement);
+  });
+
+  selectElement.value = selectedOption;
+
+  selectElement.addEventListener("change", function () {
+    const selectedValue = this.value;
+    onchangeFunc(selectedValue as TempDisplay);
+  });
+
+  return selectElement;
+}
+
 export function getRadioButtons(
   options: string[],
   defaultOption: string,
@@ -121,9 +145,7 @@ export function getRadioButtons(
     label.textContent = option.charAt(0).toUpperCase() + option.slice(1);
 
     radio.addEventListener("change", function () {
-      if (this.checked) {
-        onchangeFunc(option);
-      }
+      this.checked && onchangeFunc(option);
     });
 
     return appendChildrenToParent(container, [

@@ -5,10 +5,19 @@
   gap: 4px;
 }
 
-// padding: 16px;
-
-.temp-buttons-container {
+.temp-select-container {
   padding: 8px;
+  align-self: baseline;
+  outline: none;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+}
+
+.weather-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
 }
 
 .day-container {
@@ -38,5 +47,9 @@
     &.footer {
       border-top: 1px solid black;
     }
+  }
+
+  p {
+    padding: 8px;
   }
 }

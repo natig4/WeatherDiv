@@ -1,7 +1,7 @@
 import {
   appendChildrenToParent,
+  generateTemperatureUnitDropdown,
   getLoader,
-  getRadioButtons,
   getWeatherForUi,
 } from "../../helpers";
 import { IDayWeather, SelectedLocation, TempDisplay } from "../../models";
@@ -63,17 +63,19 @@ function renderWeatherInfoHelper(
   );
   daysContainer.classList.add("days-container");
 
-  const options = ["Celsius", "Fahrenheit"];
+  const dropdown = generateTemperatureUnitDropdown(
+    ["Celsius", "Fahrenheit"],
+    selectedTemp,
+    (option) => {
+      onTempChange(option as TempDisplay);
+    }
+  );
 
-  const buttons = getRadioButtons(options, selectedTemp, (option) => {
-    onTempChange(option as TempDisplay);
-  });
-
-  buttons.classList.add("temp-buttons-container");
+  dropdown.classList.add("temp-select-container");
 
   return appendChildrenToParent(weatherInfo, [
     locationName,
-    buttons,
+    dropdown,
     daysContainer,
   ]);
 }

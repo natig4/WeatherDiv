@@ -6,12 +6,14 @@ export function getDataSourceButtons(
   handleViewChange: (source: CoordsSource) => void,
   onLocationChange: LocationFunc
 ) {
-  const options: CoordsSource[] = ["location", "coordinates"];
-
-  const buttons = getRadioButtons(options, viewSource, (option) => {
-    handleViewChange(option as CoordsSource);
-    onLocationChange(null);
-  });
+  const buttons = getRadioButtons(
+    ["location", "coordinates"],
+    viewSource,
+    (option) => {
+      handleViewChange(option as CoordsSource);
+      onLocationChange(null);
+    }
+  );
 
   buttons.classList.add("view-buttons-container");
 
