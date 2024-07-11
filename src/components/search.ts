@@ -19,16 +19,30 @@ async function searchLocation(query: string): Promise<ICity[]> {
 }
 
 export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
-  const input: HTMLInputElement = getInputElement("search");
-  input.classList.add("coords-input", "search-input");
-  input.placeholder = "Enter city or country...";
+  const inputName = "search";
+  const input: HTMLInputElement = getInputElement(
+    inputName,
+    inputName,
+    "Enter city or country...",
+    ["coords-input", "search-input"]
+  );
+
+  const label = document.createElement("label");
+  label.htmlFor = inputName;
+  label.textContent = inputName.charAt(0).toUpperCase() + inputName.slice(1);
 
   const resultsDiv: HTMLDivElement = document.createElement("div");
   resultsDiv.classList.add("locations-results-container", "hidden");
 
+  const inputContainer = appendChildrenToParent(document.createElement("div"), [
+    label,
+    input,
+  ]);
+  inputContainer.classList.add("coords-input-container");
+
   const searchContainer = appendChildrenToParent(
     document.createElement("div"),
-    [input, resultsDiv]
+    [inputContainer, resultsDiv]
   );
   searchContainer.classList.add("search-container");
 

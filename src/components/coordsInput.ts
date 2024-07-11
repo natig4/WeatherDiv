@@ -1,6 +1,7 @@
 import {
   appendChildrenToParent,
   getInputElement,
+  getInputWithLabel,
   getLocationWeather,
   isNumber,
 } from "../helpers";
@@ -45,9 +46,12 @@ export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
   const latEl: HTMLInputElement = latInput.element;
   const lonEl: HTMLInputElement = lonInput.element;
 
+  const inputs = [latEl, lonEl].map((el) =>
+    getInputWithLabel(el, el.getAttribute("id") || "")
+  );
+
   const container = appendChildrenToParent(document.createElement("form"), [
-    latEl,
-    lonEl,
+    ...inputs,
     submit,
   ]);
   container.classList.add("coords-form-container");
@@ -72,15 +76,17 @@ export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
 }
 
 function getInputHelper(type: "latitude" | "longitude") {
-  const input: HTMLInputElement = getInputElement("text");
-  input.name = type;
-  input.id = type;
-  input.classList.add("coords-input", "lat-lon-input");
+  const input: HTMLInputElement = getInputElement(
+    "text",
+    type,
+    `Please enter your desired ${type}...`,
+    ["coords-input", "lat-lon-input"]
+  );
 
-  input.placeholder = `Please enter your desired ${type}...`;
   input.addEventListener("focus", () => {
     input.classList.remove("error");
   });
+
   return input;
 }
 

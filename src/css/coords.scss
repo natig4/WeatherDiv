@@ -4,10 +4,13 @@ $inputWidth: 580px;
 .view-buttons-container {
   display: flex;
   gap: 4px;
+  align-items: flex-start;
 }
 
 .coords-form-container {
   width: $inputWidth;
+  gap: 16px;
+  align-items: flex-end;
 }
 
 .view-button-container {

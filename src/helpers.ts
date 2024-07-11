@@ -1,9 +1,32 @@
 import { InputType } from "./models";
 
-export function getInputElement(type: InputType): HTMLInputElement {
+export function getInputElement(
+  type: InputType,
+  name: string,
+  placeholder: string,
+  className: string[]
+): HTMLInputElement {
   const input: HTMLInputElement = document.createElement("input");
   input.type = type;
+  input.id = name;
+  input.classList.add(...className);
+  input.placeholder = placeholder;
   return input;
+}
+
+export function getInputWithLabel(
+  input: HTMLInputElement,
+  name: string
+): HTMLDivElement {
+  const label = document.createElement("label");
+  label.htmlFor = name;
+  label.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+  const inputContainer = appendChildrenToParent(document.createElement("div"), [
+    label,
+    input,
+  ]);
+  inputContainer.classList.add("coords-input-container");
+  return inputContainer;
 }
 
 export function debounce<T extends (...args: never[]) => Promise<void>>(
