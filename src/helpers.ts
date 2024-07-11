@@ -63,3 +63,10 @@ export function getLoader(): HTMLDivElement {
   loaderWrapper.innerHTML = `<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`;
   return loaderWrapper;
 }
+
+export function getContainerDiv(divId: string) {
+  const container: HTMLElement = (
+    divId ? document.getElementById(divId) : document.body
+  ) as HTMLElement;
+  return container;
+}

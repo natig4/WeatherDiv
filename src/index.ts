@@ -1,5 +1,5 @@
 import { getDataSourceButtons } from "./view/components/viewSelector";
-import { appendChildrenToParent } from "./helpers";
+import { appendChildrenToParent, getContainerDiv } from "./helpers";
 import { renderLocationForm } from "./location";
 import { CoordsSource, LocationFunc, SelectedLocation } from "./models";
 import { AppState } from "./state/state";
@@ -18,20 +18,16 @@ function renderWeatherWidget(
   addInputs = false,
   state: AppState
 ) {
-  const container: HTMLElement = (
-    divId ? document.getElementById(divId) : document.body
-  ) as HTMLElement;
-
   addInputs &&
     state &&
     renderInputs(
-      container,
+      divId,
       state.viewSource,
       handleViewChange,
       handleLocationChange
     );
 
-  renderWeatherView(container, state.selectedLocation);
+  renderWeatherView(divId, state.selectedLocation);
 
   function handleViewChange(source: CoordsSource) {
     state.viewSource = source;
@@ -45,10 +41,13 @@ function renderWeatherWidget(
 }
 
 function renderWeatherView(
-  container: HTMLElement,
+  divId: string,
   location: SelectedLocation,
   isLoading = false
 ) {
+  const container: HTMLElement = (
+    divId ? document.getElementById(divId) : document.body
+  ) as HTMLElement;
   console.log("isLoading", isLoading);
 
   if (location) {
@@ -81,11 +80,12 @@ function renderWeatherInfo(container: HTMLElement, location: SelectedLocation) {
 }
 
 function renderInputs(
-  container: HTMLElement,
+  divId: string,
   viewSource: CoordsSource,
   handleViewChange: (source: CoordsSource) => void,
   handleLocationChange: LocationFunc
 ) {
+  const container = getContainerDiv(divId);
   container.innerHTML = "";
 
   const coordsSource = document.createElement("div");
