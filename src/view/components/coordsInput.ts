@@ -4,29 +4,29 @@ import {
   getInputWithLabel,
   getLocationWeather,
   isNumber,
-} from "../../helpers";
+} from '../../helpers';
 
-import { LocationFunc } from "../../models";
+import {LocationFunc} from '../../models';
 
-import "../../css/coords.scss";
-import "../../css/input.scss";
+import '../../css/coords.scss';
+import '../../css/input.scss';
 
-type InputState = "error" | "success";
+type InputState = 'error' | 'success';
 
 class Input {
   private _element: HTMLInputElement;
 
-  constructor(type: "latitude" | "longitude") {
+  constructor(type: 'latitude' | 'longitude') {
     this._element = getInputHelper(type);
-    this.state = "success";
-    this._element.addEventListener("focus", () => (this.state = "success"));
+    this.state = 'success';
+    this._element.addEventListener('focus', () => (this.state = 'success'));
   }
 
   set state(v: InputState) {
-    if (v === "success") {
-      this._element.classList.remove("error");
+    if (v === 'success') {
+      this._element.classList.remove('error');
     } else {
-      this._element.classList.add("error");
+      this._element.classList.add('error');
     }
   }
 
@@ -35,28 +35,28 @@ class Input {
   }
 }
 
-const latInput = new Input("latitude");
-const lonInput = new Input("longitude");
+const latInput = new Input('latitude');
+const lonInput = new Input('longitude');
 
 export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
-  const submit = document.createElement("button");
-  submit.classList.add("coords-form-button");
-  submit.innerText = "Search";
-  submit.type = "submit";
+  const submit = document.createElement('button');
+  submit.classList.add('coords-form-button');
+  submit.innerText = 'Search';
+  submit.type = 'submit';
   const latEl: HTMLInputElement = latInput.element;
   const lonEl: HTMLInputElement = lonInput.element;
 
-  const inputs = [latEl, lonEl].map((el) =>
-    getInputWithLabel(el, el.getAttribute("id") || "")
+  const inputs = [latEl, lonEl].map(el =>
+    getInputWithLabel(el, el.getAttribute('id') || '')
   );
 
-  const container = appendChildrenToParent(document.createElement("form"), [
+  const container = appendChildrenToParent(document.createElement('form'), [
     ...inputs,
     submit,
   ]);
-  container.classList.add("coords-form-container");
+  container.classList.add('coords-form-container');
 
-  container.addEventListener("submit", (ev) => {
+  container.addEventListener('submit', async ev => {
     ev.preventDefault();
     const isLatError = !isNumber(latEl.value);
     const isLonError = !isNumber(lonEl.value);
@@ -67,24 +67,27 @@ export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
 
     const lat = +latEl.value;
     const lon = +lonEl.value;
-    const location = { lat, lon };
+    const location = {lat, lon};
 
-    getLocationWeather(location);
+    onLocationChange(null, true);
+    const data = await getLocationWeather(location);
+    console.log('data', data);
+
     onLocationChange(location);
   });
   return container;
 }
 
-function getInputHelper(type: "latitude" | "longitude") {
+function getInputHelper(type: 'latitude' | 'longitude') {
   const input: HTMLInputElement = getInputElement(
-    "text",
+    'text',
     type,
     `Please enter your desired ${type}...`,
-    ["coords-input", "lat-lon-input"]
+    ['coords-input', 'lat-lon-input']
   );
 
-  input.addEventListener("focus", () => {
-    input.classList.remove("error");
+  input.addEventListener('focus', () => {
+    input.classList.remove('error');
   });
 
   return input;
@@ -92,10 +95,10 @@ function getInputHelper(type: "latitude" | "longitude") {
 
 function handleLatLonError(isLatError: boolean, isLonError: boolean) {
   if (isLatError) {
-    latInput.state = "error";
+    latInput.state = 'error';
   }
 
   if (isLonError) {
-    lonInput.state = "error";
+    lonInput.state = 'error';
   }
 }
