@@ -1,30 +1,25 @@
-export const API_URL = 'http://api.weatherapi.com/v1/forecast.json';
+export const API_URL = "http://api.weatherapi.com/v1/forecast.json";
 export const API_TIMEFRAME = 14;
 
-export type InputType = 'text' | 'search' | 'radio';
-export type CoordsSource = 'location' | 'coordinates';
+export type InputType = "text" | "search" | "radio";
+export type CoordsSource = "location" | "coordinates";
 
 export interface ICity {
-  place_id: number;
-  licence: string;
-  osm_type: string;
-  osm_id: number;
   lat: string;
   lon: string;
-  class: string;
-  type: string;
-  place_rank: number;
-  importance: number;
-  addresstype: string;
-  name: string;
   display_name: string;
-  boundingbox: string[];
+  name: string;
 }
 
 interface ILocation {
-  name?: string;
-  lat: number;
-  lon: number;
+  name: string;
+  temps: IDayWeather[];
+}
+
+export interface IDayWeather {
+  day: string;
+  temp: string;
+  recommendation: string;
 }
 
 export type SelectedLocation = ILocation | null;
@@ -43,17 +38,13 @@ interface Forecast {
   forecastday: Forecastday[];
 }
 
-interface Forecastday {
+export interface Forecastday {
   date: string;
   date_epoch: number;
   day: Day;
 }
 
 interface Day {
-  maxtemp_c: number;
-  maxtemp_f: number;
-  mintemp_c: number;
-  mintemp_f: number;
   avgtemp_c: number;
   avgtemp_f: number;
 }

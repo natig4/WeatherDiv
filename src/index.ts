@@ -1,7 +1,12 @@
 import { getDataSourceButtons } from "./view/components/viewSelector";
 import { appendChildrenToParent, getContainerDiv, getLoader } from "./helpers";
 import { renderLocationForm } from "./location";
-import { CoordsSource, LocationFunc, SelectedLocation } from "./models";
+import {
+  CoordsSource,
+  IDayWeather,
+  LocationFunc,
+  SelectedLocation,
+} from "./models";
 import { AppState } from "./state/state";
 
 import "./css/index.scss";
@@ -46,7 +51,7 @@ function renderWeatherView(
   const container: HTMLElement = (
     divId ? document.getElementById(divId) : document.body
   ) as HTMLElement;
-  console.log("isLoading", isLoading);
+
   if (location || isLoading) {
     return renderWeatherInfo(container, location);
   }
@@ -73,18 +78,42 @@ function renderWeatherInfoHelper(location: SelectedLocation): HTMLDivElement {
 
   const weatherInfo = document.createElement("div");
   const locationName = document.createElement("h2");
-  locationName.textContent = `Weather for ${
-    location.name || `${location.lat}, ${location.lon}`
-  }`;
+  locationName.textContent = `Weather for ${location.name}`;
+  console.log("location", location.temps);
 
-  weatherInfo.appendChild(locationName);
+  const days = location.temps.map((weather) => renderDayHelper(weather));
+  const daysContainer = appendChildrenToParent(
+    document.createElement("div"),
+    days
+  );
+  daysContainer.classList.add("days-container");
 
-  // add location weather here
+  weatherInfo.insertAdjacentElement("afterbegin", daysContainer);
+  weatherInfo.insertAdjacentElement("afterbegin", locationName);
 
-  const placeholder = document.createElement("p");
-  placeholder.textContent = "Weather data will be displayed here.";
-  weatherInfo.appendChild(placeholder);
+  console.log(weatherInfo.children);
+
   return weatherInfo;
+}
+
+function renderDayHelper(weather: IDayWeather) {
+  const dayContainer = document.createElement("div");
+  dayContainer.classList.add("day-container");
+  const dayName = document.createElement("h4");
+  dayName.innerText = weather.day;
+  const img = document.createElement("img");
+  img.src = "";
+  const recommendation = document.createElement("p");
+  recommendation.innerText = weather.recommendation;
+  const temp = document.createElement("h4");
+  temp.innerText = weather.temp;
+
+  return appendChildrenToParent(dayContainer, [
+    dayName,
+    img,
+    recommendation,
+    temp,
+  ]);
 }
 
 function renderInputs(
