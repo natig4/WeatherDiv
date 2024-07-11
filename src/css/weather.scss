@@ -1,8 +1,14 @@
 .days-container {
-  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 4px;
+}
+
+// padding: 16px;
+
+.temp-buttons-container {
+  padding: 8px;
 }
 
 .day-container {
@@ -13,10 +19,24 @@
     rgba(229, 106, 253, 0.71) 71.5%,
     rgba(123, 183, 253, 1) 100.2%
   );
+  border: 1px solid black;
   border-radius: 4px;
+
   img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
+  }
+  h4 {
+    padding: 8px;
+    background-color: aliceblue;
+
+    &.header {
+      border-bottom: 1px solid black;
+    }
+
+    &.footer {
+      border-top: 1px solid black;
+    }
   }
 }

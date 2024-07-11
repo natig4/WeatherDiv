@@ -1,9 +1,10 @@
-import { CoordsSource, SelectedLocation } from "../models";
+import { CoordsSource, SelectedLocation, TempDisplay } from "../models";
 
 export class AppState {
   private _isLoading = false;
   private _viewSource: CoordsSource = "location";
   private _selectedLocation: SelectedLocation = null;
+  private _selectedTemp: TempDisplay = "Celsius";
 
   set isLoading(isLoading: boolean) {
     this._isLoading = isLoading;
@@ -27,5 +28,13 @@ export class AppState {
 
   get selectedLocation(): SelectedLocation {
     return this._selectedLocation;
+  }
+
+  set selectedTemp(selectedTemp: TempDisplay) {
+    this._selectedTemp = selectedTemp;
+  }
+
+  get selectedTemp(): TempDisplay {
+    return this._selectedTemp;
   }
 }

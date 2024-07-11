@@ -3,6 +3,7 @@ export const API_TIMEFRAME = 14;
 
 export type InputType = "text" | "search" | "radio";
 export type CoordsSource = "location" | "coordinates";
+export type TempDisplay = "Celsius" | "Fahrenheit";
 
 export interface ICity {
   lat: string;
@@ -11,7 +12,7 @@ export interface ICity {
   name: string;
 }
 
-interface ILocation {
+export interface ILocation {
   name: string;
   temps: IDayWeather[];
 }
@@ -22,7 +23,7 @@ export interface IDayWeather {
   recommendation: string;
 }
 
-export type SelectedLocation = ILocation | null;
+export type SelectedLocation = IWeatherAPIResponse | null;
 
 export type LocationFunc = (
   location: SelectedLocation,

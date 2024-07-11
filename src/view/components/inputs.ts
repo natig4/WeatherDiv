@@ -1,17 +1,14 @@
-import { appendChildrenToParent, getContainerDiv } from "../../helpers";
+import { appendChildrenToParent } from "../../helpers";
 import { renderLocationForm } from "../../location";
 import { CoordsSource, LocationFunc } from "../../models";
 import { getDataSourceButtons } from "./viewSelector";
 
 export function renderInputs(
-  divId: string,
+  container: HTMLElement,
   viewSource: CoordsSource,
   handleViewChange: (source: CoordsSource) => void,
   handleLocationChange: LocationFunc
 ) {
-  const container = getContainerDiv(divId);
-  container.innerHTML = "";
-
   const coordsSource = document.createElement("div");
   coordsSource.classList.add("coords-source");
 

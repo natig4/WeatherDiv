@@ -4,6 +4,7 @@ import {
   Forecastday,
   InputType,
   IWeatherAPIResponse,
+  TempDisplay,
 } from "./models";
 
 export function getInputElement(
@@ -67,8 +68,7 @@ export async function getLocationWeather({
 
   try {
     const data = (await fetchData(url)) as IWeatherAPIResponse;
-    const pretty = getWeatherForUi(data);
-    return pretty;
+    return data;
   } catch (error) {
     return null;
   }
@@ -101,16 +101,57 @@ export async function fetchData(url: string): Promise<unknown> {
   }
 }
 
-function getWeatherForUi(weather: IWeatherAPIResponse) {
-  const { name } = weather.location;
+export function getRadioButtons(
+  options: string[],
+  defaultOption: string,
+  onchangeFunc: (option: string) => void
+) {
+  const htmlOptions = options.map((option) => {
+    const container = document.createElement("div");
+    container.classList.add("view-button-container");
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.id = option;
+    radio.name = "searchType";
+    radio.value = option;
+    radio.checked = option === defaultOption;
 
-  return { name, temps: calculateAvgTemp(weather.forecast.forecastday) };
+    const label = document.createElement("label");
+    label.htmlFor = option;
+    label.textContent = option.charAt(0).toUpperCase() + option.slice(1);
+
+    radio.addEventListener("change", function () {
+      if (this.checked) {
+        onchangeFunc(option);
+      }
+    });
+
+    return appendChildrenToParent(container, [
+      container.appendChild(radio),
+      container.appendChild(label),
+    ]);
+  });
+  return appendChildrenToParent(document.createElement("div"), htmlOptions);
 }
 
-function calculateAvgTemp(days: Forecastday[]) {
+export function getWeatherForUi(
+  weather: IWeatherAPIResponse,
+  selectedTemp: TempDisplay
+) {
+  const { name } = weather.location;
+
+  return {
+    name,
+    temps: calculateAvgTemp(weather.forecast.forecastday, selectedTemp),
+  };
+}
+
+function calculateAvgTemp(days: Forecastday[], selectedTemp: TempDisplay) {
   const adjustedDays = days.reduce(
     (weekDays, day) => {
-      const currDay = { temp: day.day.avgtemp_c, day: getDayOfWeek(day.date) };
+      const temp =
+        selectedTemp === "Celsius" ? day.day.avgtemp_c : day.day.avgtemp_f;
+      const currDay = { temp, day: getDayOfWeek(day.date) };
       const arrPosition = weekDays.find(({ day }) => day === currDay.day);
       if (arrPosition) {
         arrPosition.temp.push(currDay.temp);
@@ -134,7 +175,11 @@ function calculateAvgTemp(days: Forecastday[]) {
     const temp = getFormattedNum(tempSum / temps.length);
 
     const recommendation = getRecommendationByTemp(+temp);
-    return { day, temp, recommendation };
+    return {
+      day,
+      temp: temp + ` ${selectedTemp === "Celsius" ? "℃" : "℉"}`,
+      recommendation,
+    };
   });
 }
 
