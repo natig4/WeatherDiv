@@ -28,7 +28,7 @@ Note: If you don't specify a div ID, the widget will be appended to the body.
 ## Get an API key:
 
 Sign up for a free account at WeatherAPI - https://www.weatherapi.com/signup.aspx
-Once logged in, you can find your API key in the dashboard
+Once logged in, you can find your API key in the dashboard.
 
 ## Features
 
