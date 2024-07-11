@@ -37,7 +37,10 @@ class Input {
 const latInput = new Input("latitude");
 const lonInput = new Input("longitude");
 
-export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
+export function getLatLonForm(
+  onLocationChange: LocationFunc,
+  apiKey: string
+): HTMLFormElement {
   const submit = document.createElement("button");
   submit.classList.add("coords-form-button");
   submit.innerText = "Search";
@@ -69,7 +72,7 @@ export function getLatLonForm(onLocationChange: LocationFunc): HTMLFormElement {
     const location = { lat, lon };
 
     onLocationChange(null, true);
-    const data = await getLocationWeather(location);
+    const data = await getLocationWeather(location, apiKey);
 
     onLocationChange(data);
   });

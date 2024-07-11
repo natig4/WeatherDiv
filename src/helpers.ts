@@ -62,14 +62,16 @@ export function appendChildrenToParent<T extends HTMLElement>(
   return parent;
 }
 
-export async function getLocationWeather({
-  lat,
-  lon,
-}: {
-  lat: number;
-  lon: number;
-}) {
-  const apiKey = process.env.API_KEY;
+export async function getLocationWeather(
+  {
+    lat,
+    lon,
+  }: {
+    lat: number;
+    lon: number;
+  },
+  apiKey: String
+) {
   const url = `${API_URL}?q=${lat},${lon}&days=${API_TIMEFRAME}&key=${apiKey}`;
 
   try {

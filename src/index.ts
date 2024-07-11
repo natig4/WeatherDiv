@@ -6,8 +6,12 @@ import { renderInputs } from "./view/components/inputs";
 import "./css/index.scss";
 import "./css/loader.scss";
 
-export function init(divId = "weather-widget-container") {
-  const state = new AppState();
+export function init(apiKey: string, divId = "weather-widget-container") {
+  if (!apiKey) {
+    console.error("WeatherWidget: API key is required");
+    return;
+  }
+  const state = new AppState(apiKey);
   const container = (
     divId ? document.getElementById(divId) : document.body
   ) as HTMLElement;
@@ -20,7 +24,8 @@ function renderWeatherWidget(container: HTMLElement, state: AppState) {
     container,
     state.viewSource,
     handleViewChange,
-    handleLocationChange
+    handleLocationChange,
+    state.apiKey
   );
 
   function handleViewChange(source: CoordsSource) {
@@ -46,4 +51,4 @@ function renderWeatherWidget(container: HTMLElement, state: AppState) {
   }
 }
 
-init();
+init("e757f819eb834f1b92795849241107");

@@ -8,17 +8,10 @@ import {
 } from "../../helpers";
 import { ICity, LocationFunc } from "../../models";
 
-async function searchLocation(query: string): Promise<ICity[]> {
-  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
-
-  try {
-    return (await fetchData(url)) as ICity[];
-  } catch (error) {
-    return [];
-  }
-}
-
-export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
+export function getSearchInput(
+  onLocationChange: LocationFunc,
+  apiKey: string
+): HTMLDivElement {
   const inputName = "search";
   const input: HTMLInputElement = getInputElement(
     inputName,
@@ -61,7 +54,7 @@ export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
       };
       hideResults(resultsDiv);
       onLocationChange(null, true);
-      const data = await getLocationWeather(location);
+      const data = await getLocationWeather(location, apiKey);
 
       onLocationChange(data);
     }
@@ -72,6 +65,16 @@ export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
     debouncedSearch(query);
   });
   return searchContainer;
+}
+
+async function searchLocation(query: string): Promise<ICity[]> {
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
+
+  try {
+    return (await fetchData(url)) as ICity[];
+  } catch (error) {
+    return [];
+  }
 }
 
 function hideResults(resultsDiv: HTMLDivElement) {

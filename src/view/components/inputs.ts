@@ -9,7 +9,8 @@ export function renderInputs(
   container: HTMLElement,
   viewSource: CoordsSource,
   handleViewChange: (source: CoordsSource) => void,
-  handleLocationChange: LocationFunc
+  handleLocationChange: LocationFunc,
+  apiKey: string
 ) {
   const coordsSource = document.createElement("div");
   coordsSource.classList.add("coords-source");
@@ -21,7 +22,7 @@ export function renderInputs(
   container.appendChild(heading);
   container.appendChild(
     appendChildrenToParent(coordsSource, [
-      renderLocationForm(viewSource, handleLocationChange),
+      renderLocationForm(viewSource, handleLocationChange, apiKey),
       getDataSourceButtons(viewSource, handleViewChange, handleLocationChange),
     ])
   );

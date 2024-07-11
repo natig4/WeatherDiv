@@ -5,6 +5,11 @@ export class AppState {
   private _viewSource: CoordsSource = "location";
   private _selectedLocation: SelectedLocation = null;
   private _selectedTemp: TempDisplay = "Celsius";
+  apiKey: string;
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
 
   set isLoading(isLoading: boolean) {
     this._isLoading = isLoading;

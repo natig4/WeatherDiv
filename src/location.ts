@@ -4,12 +4,13 @@ import { CoordsSource, LocationFunc } from "./models";
 
 export function renderLocationForm(
   viewSource: CoordsSource,
-  onLocationChange: LocationFunc
+  onLocationChange: LocationFunc,
+  apiKey: string
 ): HTMLDivElement | HTMLFormElement {
   const currView =
     viewSource === "location"
-      ? getSearchInput(onLocationChange)
-      : getLatLonForm(onLocationChange);
+      ? getSearchInput(onLocationChange, apiKey)
+      : getLatLonForm(onLocationChange, apiKey);
 
   return currView;
 }
