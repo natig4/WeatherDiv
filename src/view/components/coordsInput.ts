@@ -9,7 +9,6 @@ import {
 import { LocationFunc } from "../../models";
 
 import "../../css/coords.scss";
-import "../../css/input.scss";
 
 type InputState = "error" | "success";
 

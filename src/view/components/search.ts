@@ -67,12 +67,6 @@ export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
     }
   });
 
-  // input.addEventListener("blur", () => {
-  //   setTimeout(() => {
-  //     hideResults(resultsDiv);
-  //   }, 100);
-  // });
-
   input.addEventListener("input", () => {
     const query = input.value;
     debouncedSearch(query);
