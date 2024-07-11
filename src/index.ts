@@ -27,8 +27,6 @@ function renderWeatherWidget(
       handleLocationChange
     );
 
-  renderWeatherView(divId, state.selectedLocation);
-
   function handleViewChange(source: CoordsSource) {
     state.viewSource = source;
     renderWeatherWidget(divId, addInputs, state);
@@ -36,7 +34,7 @@ function renderWeatherWidget(
 
   function handleLocationChange(location: SelectedLocation) {
     state.selectedLocation = location;
-    renderWeatherWidget(divId, addInputs, state);
+    renderWeatherView(divId, state.selectedLocation);
   }
 }
 

@@ -50,19 +50,23 @@ export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
   }, 300);
 
   resultsDiv.addEventListener("click", (ev) => {
+    console.log("res", ev);
     const res = handleResultClick(ev);
+
     if (res) {
       input.value = res.name;
       resultsDiv.innerHTML = "";
       const location = { lat: res.lat, lon: res.lon, name: res.name };
       getLocationWeather(location);
       onLocationChange(location);
-      resultsDiv.classList.add("hidden");
+      hideResults(resultsDiv);
     }
   });
 
   input.addEventListener("blur", () => {
-    resultsDiv.classList.add("hidden");
+    setTimeout(() => {
+      hideResults(resultsDiv);
+    }, 100);
   });
 
   input.addEventListener("input", () => {
@@ -70,6 +74,10 @@ export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
     debouncedSearch(query);
   });
   return searchContainer;
+}
+
+function hideResults(resultsDiv: HTMLDivElement) {
+  resultsDiv.classList.add("hidden");
 }
 
 async function handleSearch(
