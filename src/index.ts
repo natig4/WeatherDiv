@@ -13,7 +13,7 @@ export function init(apiKey: string, divId = "weather-widget-container") {
   }
   const state = new AppState(apiKey);
   const container = (
-    divId ? document.getElementById(divId) : document.body
+    divId ? document.getElementById(divId) || document.body : document.body
   ) as HTMLElement;
 
   renderWeatherWidget(container, state);

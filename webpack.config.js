@@ -4,12 +4,13 @@ const isProduction = process.env.NODE_ENV === "production";
 module.exports = {
   entry: "./src/index.ts",
   output: {
-    filename: "weather-div.js",
+    filename: "weather-widget.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
     library: {
-      type: "umd",
       name: "WeatherWidget",
+      type: "umd",
+      umdNamedDefine: true,
     },
   },
   module: {
