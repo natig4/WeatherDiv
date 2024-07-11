@@ -50,5 +50,3 @@ function renderWeatherWidget(container: HTMLElement, state: AppState) {
     handleLocationChange(state.selectedLocation);
   }
 }
-
-init("e757f819eb834f1b92795849241107");
