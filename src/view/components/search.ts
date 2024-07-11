@@ -57,17 +57,20 @@ export function getSearchInput(onLocationChange: LocationFunc): HTMLDivElement {
       input.value = res.name;
       resultsDiv.innerHTML = "";
       const location = { lat: res.lat, lon: res.lon, name: res.name };
-      getLocationWeather(location);
-      onLocationChange(location);
       hideResults(resultsDiv);
+      onLocationChange(null, true);
+      setTimeout(() => {
+        getLocationWeather(location);
+        onLocationChange(location);
+      }, 2000);
     }
   });
 
-  input.addEventListener("blur", () => {
-    setTimeout(() => {
-      hideResults(resultsDiv);
-    }, 100);
-  });
+  // input.addEventListener("blur", () => {
+  //   setTimeout(() => {
+  //     hideResults(resultsDiv);
+  //   }, 100);
+  // });
 
   input.addEventListener("input", () => {
     const query = input.value;

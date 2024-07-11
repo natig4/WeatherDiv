@@ -26,4 +26,7 @@ interface ILocation {
 
 export type SelectedLocation = ILocation | null;
 
-export type LocationFunc = (location: SelectedLocation) => void;
+export type LocationFunc = (
+  location: SelectedLocation,
+  isLoading?: boolean
+) => void;

@@ -1,5 +1,5 @@
 import { getDataSourceButtons } from "./view/components/viewSelector";
-import { appendChildrenToParent, getContainerDiv } from "./helpers";
+import { appendChildrenToParent, getContainerDiv, getLoader } from "./helpers";
 import { renderLocationForm } from "./location";
 import { CoordsSource, LocationFunc, SelectedLocation } from "./models";
 import { AppState } from "./state/state";
@@ -32,49 +32,59 @@ function renderWeatherWidget(
     renderWeatherWidget(divId, addInputs, state);
   }
 
-  function handleLocationChange(location: SelectedLocation) {
+  function handleLocationChange(location: SelectedLocation, isLoading = false) {
     state.selectedLocation = location;
-    renderWeatherView(divId, state.selectedLocation);
+    renderWeatherView(divId, state.selectedLocation, isLoading);
   }
 }
 
 function renderWeatherView(
   divId: string,
   location: SelectedLocation,
-  isLoading = false
+  isLoading: boolean
 ) {
   const container: HTMLElement = (
     divId ? document.getElementById(divId) : document.body
   ) as HTMLElement;
   console.log("isLoading", isLoading);
-
-  if (location) {
-    renderWeatherInfo(container, location);
-  } else {
-    const weatherContainer = document.querySelector(".weather-info");
-    weatherContainer && (container.innerHTML = "");
+  if (location || isLoading) {
+    return renderWeatherInfo(container, location);
   }
+  const weatherContainer = document.querySelector(".weather-info");
+  weatherContainer && (container.innerHTML = "");
 }
 
 function renderWeatherInfo(container: HTMLElement, location: SelectedLocation) {
-  const weatherInfo = document.createElement("div");
+  const weatherInfo =
+    document.querySelector(".weather-info") || document.createElement("div");
+
+  weatherInfo.innerHTML = "";
   weatherInfo.classList.add("weather-info");
-  if (location) {
-    const locationName = document.createElement("h2");
-    locationName.textContent = `Weather for ${
-      location.name || `${location.lat}, ${location.lon}`
-    }`;
-    weatherInfo.appendChild(locationName);
 
-    // add location weather here
-
-    const placeholder = document.createElement("p");
-    placeholder.textContent = "Weather data will be displayed here.";
-    weatherInfo.appendChild(placeholder);
-  }
-  // add loader here
+  weatherInfo.appendChild(renderWeatherInfoHelper(location));
 
   container.appendChild(weatherInfo);
+}
+
+function renderWeatherInfoHelper(location: SelectedLocation): HTMLDivElement {
+  if (!location) {
+    return getLoader();
+  }
+
+  const weatherInfo = document.createElement("div");
+  const locationName = document.createElement("h2");
+  locationName.textContent = `Weather for ${
+    location.name || `${location.lat}, ${location.lon}`
+  }`;
+
+  weatherInfo.appendChild(locationName);
+
+  // add location weather here
+
+  const placeholder = document.createElement("p");
+  placeholder.textContent = "Weather data will be displayed here.";
+  weatherInfo.appendChild(placeholder);
+  return weatherInfo;
 }
 
 function renderInputs(
