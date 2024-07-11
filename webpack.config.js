@@ -5,11 +5,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
-  entry: ["./src/index"],
+  entry: "./src/index.ts",
   output: {
     filename: "weather-div.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    library: {
+      type: "umd",
+      name: "WeatherWidget",
+    },
   },
   module: {
     rules: [
