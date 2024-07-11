@@ -4,7 +4,7 @@ This Project produces a widget displays weather information for a specified loca
 
 ## Usage
 
-1. Clone this repo, run npm install and npm run build to get the JS file
+1. Clone this repo, run npm install and npm run build to get hold of the JS file.
 
 2. Copy the file from the dist folder to your project.
 
