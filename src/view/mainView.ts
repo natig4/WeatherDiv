@@ -29,9 +29,9 @@ export class View {
     this._weather = v;
   }
 
-  constructor(container: HTMLElement, state: AppState) {
+  constructor(container: HTMLElement, apiKey: string) {
     this.container = container;
-    this.state = state;
+    this.state = new AppState(apiKey);
 
     const heading = document.createElement("h1");
     heading.innerText = "Please select a location";
