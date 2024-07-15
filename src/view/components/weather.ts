@@ -19,8 +19,13 @@ export function renderWeatherView(
   if (location || isLoading) {
     return renderWeatherInfo(container, location, selectedTemp, onTempChange);
   }
+
   const weatherContainer = document.querySelector(".weather-info");
-  weatherContainer && (container.innerHTML = "");
+
+  if (weatherContainer) {
+    weatherContainer.innerHTML =
+      "<h2>Location wasn't found please try again</h2>";
+  }
 }
 
 function renderWeatherInfo(
