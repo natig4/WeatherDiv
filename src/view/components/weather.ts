@@ -4,16 +4,16 @@ import {
   getDropdown,
   getLoader,
 } from "../../helpers";
-import { IDayWeather, SelectedLocation, TempDisplay } from "../../models";
+import { IDayWeather, SelectedLocation, TempOptions } from "../../models";
 import "../../css/weather.scss";
 import { getImgByRecommendation, getWeatherForUi } from "../../service";
 
 export function renderWeatherView(
   container: HTMLElement,
   location: SelectedLocation,
-  selectedTemp: TempDisplay,
+  selectedTemp: TempOptions,
   isLoading: boolean,
-  onTempChange: (temp: TempDisplay) => void
+  onTempChange: (temp: TempOptions) => void
 ) {
   if (location || isLoading) {
     return renderWeatherInfo(container, location, selectedTemp, onTempChange);
@@ -30,8 +30,8 @@ export function renderWeatherView(
 function renderWeatherInfo(
   container: HTMLElement,
   location: SelectedLocation,
-  selectedTemp: TempDisplay,
-  onTempChange: (temp: TempDisplay) => void
+  selectedTemp: TempOptions,
+  onTempChange: (temp: TempOptions) => void
 ) {
   const weatherInfo =
     document.querySelector(".weather-info") || document.createElement("div");
@@ -48,8 +48,8 @@ function renderWeatherInfo(
 
 function renderWeatherInfoHelper(
   location: SelectedLocation,
-  selectedTemp: TempDisplay,
-  onTempChange: (temp: TempDisplay) => void
+  selectedTemp: TempOptions,
+  onTempChange: (temp: TempOptions) => void
 ): HTMLDivElement {
   if (!location) {
     return getLoader();
@@ -73,7 +73,7 @@ function renderWeatherInfoHelper(
     ["Celsius", "Fahrenheit"],
     selectedTemp,
     (option) => {
-      onTempChange(option as TempDisplay);
+      onTempChange(option as TempOptions);
     }
   );
 

@@ -1,4 +1,4 @@
-import { CoordsSource, SelectedLocation, TempDisplay } from "../models";
+import { CoordsSource, SelectedLocation, TempOptions } from "../models";
 import { AppState } from "../state/state";
 import { renderInputs } from "./components/inputs";
 import { renderWeatherView } from "./components/weather";
@@ -35,11 +35,11 @@ export class View {
       this.state.selectedLocation,
       this.state.selectedTemp,
       isLoading,
-      (temp: TempDisplay) => this.handleTempChange(temp)
+      (temp: TempOptions) => this.handleTempChange(temp)
     );
   }
 
-  handleTempChange(temp: TempDisplay) {
+  handleTempChange(temp: TempOptions) {
     this.state.selectedTemp = temp;
     this.handleLocationChange(this.state.selectedLocation);
   }

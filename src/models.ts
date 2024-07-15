@@ -3,7 +3,7 @@ export const API_TIMEFRAME = 14;
 
 export type InputType = "text" | "search" | "radio";
 export type CoordsSource = "location" | "coordinates";
-export type TempDisplay = "Celsius" | "Fahrenheit";
+export type TempOptions = "Celsius" | "Fahrenheit";
 
 export interface ICity {
   lat: string;

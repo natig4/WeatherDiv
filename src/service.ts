@@ -3,7 +3,7 @@ import {
   API_URL,
   API_TIMEFRAME,
   IWeatherAPIResponse,
-  TempDisplay,
+  TempOptions,
   ImageSourceKeys,
   ImageSource,
   Forecastday,
@@ -31,7 +31,7 @@ export async function getLocationWeather(
 
 export function getWeatherForUi(
   weather: IWeatherAPIResponse,
-  selectedTemp: TempDisplay
+  selectedTemp: TempOptions
 ) {
   const { name, country } = weather.location;
 
@@ -58,7 +58,7 @@ export function getImgByRecommendation(
   }
 }
 
-function calculateAvgTemp(days: Forecastday[], selectedTemp: TempDisplay) {
+function calculateAvgTemp(days: Forecastday[], selectedTemp: TempOptions) {
   const adjustedDays = days.reduce(
     (weekDays, day) => {
       const temp =
@@ -97,7 +97,7 @@ function calculateAvgTemp(days: Forecastday[], selectedTemp: TempDisplay) {
 
 function getRecommendationByTemp(
   temp: number,
-  selectedTemp: TempDisplay
+  selectedTemp: TempOptions
 ): ImageSourceKeys {
   temp = selectedTemp === "Celsius" ? temp : (temp - 32) * (5 / 9);
   if (temp < 0) {
