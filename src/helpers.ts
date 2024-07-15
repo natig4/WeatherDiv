@@ -1,4 +1,4 @@
-import { InputType, TempDisplay } from "./models";
+import { InputType } from "./models";
 
 export function getInputElement(
   type: InputType,
@@ -98,7 +98,7 @@ export function getDropdown(
 
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
-    onchangeFunc(selectedValue as TempDisplay);
+    onchangeFunc(selectedValue);
   });
 
   return selectElement;
