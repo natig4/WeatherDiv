@@ -59,11 +59,16 @@ export class View {
       this.weather = null;
     }
 
+    if (this.state.isLoading) {
+      this.state.loadingWhileChanged = true;
+    }
+
     this.renderWeatherWidget();
   }
 
   handleLocationChange(location: SelectedLocation, isLoading = false) {
     this.state.selectedLocation = location;
+    this.state.isLoading = isLoading;
 
     const { selectedLocation, selectedTemp } = this.state;
 

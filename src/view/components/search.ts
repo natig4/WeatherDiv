@@ -7,10 +7,11 @@ import {
 } from "../../helpers";
 import { ICity, LocationFunc } from "../../models";
 import { getLocationWeather } from "../../service";
+import { AppState } from "../../state/state";
 
 export function getSearchInput(
   onLocationChange: LocationFunc,
-  apiKey: string
+  state: AppState
 ): HTMLDivElement {
   const inputName = "search";
   const input: HTMLInputElement = getInputElement(
@@ -54,7 +55,12 @@ export function getSearchInput(
       };
       hideResults(resultsDiv);
       onLocationChange(null, true);
-      const data = await getLocationWeather(location, apiKey);
+      const data = await getLocationWeather(location, state.apiKey);
+
+      if (state.loadingWhileChanged) {
+        state.loadingWhileChanged = false;
+        return;
+      }
 
       onLocationChange(data);
     }

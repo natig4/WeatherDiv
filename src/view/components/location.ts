@@ -1,16 +1,16 @@
 import { getLatLonForm } from "./coordsInput";
 import { getSearchInput } from "./search";
-import { CoordsSource, LocationFunc } from "../../models";
+import { LocationFunc } from "../../models";
+import { AppState } from "../../state/state";
 
 export function renderLocationForm(
-  viewSource: CoordsSource,
   onLocationChange: LocationFunc,
-  apiKey: string
+  state: AppState
 ): HTMLDivElement | HTMLFormElement {
   const currView =
-    viewSource === "location"
-      ? getSearchInput(onLocationChange, apiKey)
-      : getLatLonForm(onLocationChange, apiKey);
+    state.viewSource === "location"
+      ? getSearchInput(onLocationChange, state)
+      : getLatLonForm(onLocationChange, state);
 
   return currView;
 }

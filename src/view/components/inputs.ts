@@ -7,7 +7,7 @@ import { AppState } from "../../state/state";
 import "../../css/inputs.scss";
 
 export function getInputsView(
-  { viewSource, apiKey }: AppState,
+  state: AppState,
   handleViewChange: (source: CoordsSource) => void,
   handleLocationChange: LocationFunc
 ): HTMLDivElement {
@@ -15,7 +15,7 @@ export function getInputsView(
   coordsSource.classList.add("coords-source");
 
   return appendChildrenToParent(coordsSource, [
-    renderLocationForm(viewSource, handleLocationChange, apiKey),
-    getDataSourceButtons(viewSource, handleViewChange),
+    renderLocationForm(handleLocationChange, state),
+    getDataSourceButtons(state.viewSource, handleViewChange),
   ]);
 }

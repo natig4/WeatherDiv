@@ -9,6 +9,7 @@ import { LocationFunc } from "../../models";
 
 import "../../css/coords.scss";
 import { getLocationWeather } from "../../service";
+import { AppState } from "../../state/state";
 
 type InputState = "error" | "success";
 
@@ -39,7 +40,7 @@ const lonInput = new Input("longitude");
 
 export function getLatLonForm(
   onLocationChange: LocationFunc,
-  apiKey: string
+  state: AppState
 ): HTMLFormElement {
   const submit = document.createElement("button");
   submit.classList.add("coords-form-button");
@@ -72,7 +73,12 @@ export function getLatLonForm(
     const location = { lat, lon };
 
     onLocationChange(null, true);
-    const data = await getLocationWeather(location, apiKey);
+    const data = await getLocationWeather(location, state.apiKey);
+
+    if (state.loadingWhileChanged) {
+      state.loadingWhileChanged = false;
+      return;
+    }
 
     onLocationChange(data);
   });
