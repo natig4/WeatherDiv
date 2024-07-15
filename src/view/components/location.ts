@@ -1,6 +1,6 @@
-import { getLatLonForm } from "./view/components/coordsInput";
-import { getSearchInput } from "./view/components/search";
-import { CoordsSource, LocationFunc } from "./models";
+import { getLatLonForm } from "./coordsInput";
+import { getSearchInput } from "./search";
+import { CoordsSource, LocationFunc } from "../../models";
 
 export function renderLocationForm(
   viewSource: CoordsSource,

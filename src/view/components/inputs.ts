@@ -1,5 +1,5 @@
 import { appendChildrenToParent } from "../../helpers";
-import { renderLocationForm } from "../../location";
+import { renderLocationForm } from "./location";
 import { CoordsSource, LocationFunc } from "../../models";
 import { getDataSourceButtons } from "./viewSelector";
 
