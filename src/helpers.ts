@@ -102,7 +102,14 @@ export function getContainerDiv(divId: string) {
 export async function fetchData(url: string): Promise<unknown> {
   try {
     const response = await fetch(url);
-    return await response.json();
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      throw new Error(json.message);
+    }
+
+    return json;
   } catch (error) {
     console.error("Error:", error);
     throw error;
