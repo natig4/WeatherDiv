@@ -34,6 +34,7 @@
   flex-direction: column;
   gap: 12px;
   align-items: center;
+  width: min-content;
 }
 
 .day-container {
@@ -69,10 +70,4 @@
   p {
     padding: 8px;
   }
-}
-
-.weather-info {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
 }

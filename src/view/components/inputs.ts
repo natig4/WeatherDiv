@@ -6,24 +6,16 @@ import { AppState } from "../../state/state";
 
 import "../../css/inputs.scss";
 
-export function renderInputs(
-  container: HTMLElement,
+export function getInputsView(
   { viewSource, apiKey }: AppState,
   handleViewChange: (source: CoordsSource) => void,
   handleLocationChange: LocationFunc
-) {
+): HTMLDivElement {
   const coordsSource = document.createElement("div");
   coordsSource.classList.add("coords-source");
 
-  const heading = document.createElement("h1");
-  heading.innerText = "Please select a location";
-  heading.classList.add("app-header");
-
-  container.appendChild(heading);
-  container.appendChild(
-    appendChildrenToParent(coordsSource, [
-      renderLocationForm(viewSource, handleLocationChange, apiKey),
-      getDataSourceButtons(viewSource, handleViewChange, handleLocationChange),
-    ])
-  );
+  return appendChildrenToParent(coordsSource, [
+    renderLocationForm(viewSource, handleLocationChange, apiKey),
+    getDataSourceButtons(viewSource, handleViewChange),
+  ]);
 }

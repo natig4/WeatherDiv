@@ -1,46 +1,89 @@
+import { getLoader } from "../helpers";
 import { CoordsSource, SelectedLocation, TempOptions } from "../models";
 import { AppState } from "../state/state";
-import { renderInputs } from "./components/inputs";
-import { renderWeatherView } from "./components/weather";
+import { getInputsView } from "./components/inputs";
+import { getWeatherView } from "./components/weather";
 
 export class View {
+  private loader = getLoader();
   container: HTMLElement;
+  _inputs: HTMLDivElement | null = null;
+  _weather: HTMLDivElement | null = null;
   state: AppState;
+
+  get inputs(): HTMLDivElement | null {
+    return this._inputs;
+  }
+
+  set inputs(v: HTMLDivElement | null) {
+    this._inputs = v;
+  }
+
+  get weather(): HTMLDivElement | null {
+    return this._weather;
+  }
+
+  set weather(v: HTMLDivElement | null) {
+    this._weather = v;
+  }
 
   constructor(container: HTMLElement, state: AppState) {
     this.container = container;
     this.state = state;
+
+    const heading = document.createElement("h1");
+    heading.innerText = "Please select a location";
+    heading.classList.add("app-header");
+
+    this.container.appendChild(heading);
   }
 
   renderWeatherWidget() {
-    renderInputs(
-      this.container,
+    this.inputs = getInputsView(
       this.state,
       (source: CoordsSource) => this.handleViewChange(source),
       (location: SelectedLocation, isLoading = false) =>
         this.handleLocationChange(location, isLoading)
     );
+
+    this.container.appendChild(this.inputs);
   }
 
   handleViewChange(source: CoordsSource) {
-    this.container.innerHTML = "";
     this.state.viewSource = source;
+    this.state.selectedLocation = null;
+
+    this.container.removeChild(this.inputs!);
+
+    if (this.weather) {
+      this.container.removeChild(this.weather);
+      this.weather = null;
+    }
+
     this.renderWeatherWidget();
   }
 
   handleLocationChange(location: SelectedLocation, isLoading = false) {
     this.state.selectedLocation = location;
-    renderWeatherView(
-      this.container,
-      this.state.selectedLocation,
-      this.state.selectedTemp,
-      isLoading,
-      (temp: TempOptions) => this.handleTempChange(temp)
-    );
+    this.weather && this.container.removeChild(this.weather);
+
+    const { selectedLocation, selectedTemp } = this.state;
+
+    this.weather = isLoading
+      ? this.loader
+      : getWeatherView(
+          selectedLocation,
+          selectedTemp,
+          isLoading,
+          (temp: TempOptions) => this.handleTempChange(temp)
+        );
+
+    this.container.appendChild(this.weather);
   }
 
   handleTempChange(temp: TempOptions) {
     this.state.selectedTemp = temp;
+
     this.handleLocationChange(this.state.selectedLocation);
   }
 }

@@ -1,8 +1,11 @@
-$inputWidth: 580px;
-
 .app-header {
   text-align: center;
   padding: 16px;
+}
+
+.coords-form-container,
+.search-container {
+  min-width: 600px;
 }
 
 input.coords-input {
@@ -18,7 +21,6 @@ input.coords-input {
   }
   &.search-input {
     width: 100%;
-    width: $inputWidth;
   }
 }
 
@@ -64,5 +66,5 @@ input.coords-input {
   grid-template-columns: 0.2fr 0.2fr;
   justify-content: center;
   justify-items: center;
-  margin-top: 20px;
+  gap: 20px;
 }

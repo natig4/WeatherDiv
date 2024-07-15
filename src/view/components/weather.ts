@@ -1,49 +1,31 @@
-import {
-  appendChildrenToParent,
-  capitalize,
-  getDropdown,
-  getLoader,
-} from "../../helpers";
+import { appendChildrenToParent, capitalize, getDropdown } from "../../helpers";
 import { IDayWeather, SelectedLocation, TempOptions } from "../../models";
 import "../../css/weather.scss";
 import { getImgByRecommendation, getWeatherForUi } from "../../service";
 
-export function renderWeatherView(
-  container: HTMLElement,
+export function getWeatherView(
   location: SelectedLocation,
   selectedTemp: TempOptions,
   isLoading: boolean,
   onTempChange: (temp: TempOptions) => void
 ) {
   if (location || isLoading) {
-    return renderWeatherInfo(container, location, selectedTemp, onTempChange);
+    return renderWeatherInfo(location, selectedTemp, onTempChange);
   }
 
-  const weatherContainer = document.querySelector(".weather-info");
+  const notFound = document.createElement("div");
 
-  if (weatherContainer) {
-    weatherContainer.innerHTML =
-      "<h2>Location wasn't found please try again</h2>";
-  }
+  notFound.innerHTML = "<h2>Location wasn't found please try again</h2>";
+
+  return notFound;
 }
 
 function renderWeatherInfo(
-  container: HTMLElement,
   location: SelectedLocation,
   selectedTemp: TempOptions,
   onTempChange: (temp: TempOptions) => void
-) {
-  const weatherInfo =
-    document.querySelector(".weather-info") || document.createElement("div");
-
-  weatherInfo.innerHTML = "";
-  weatherInfo.classList.add("weather-info");
-
-  weatherInfo.appendChild(
-    renderWeatherInfoHelper(location, selectedTemp, onTempChange)
-  );
-
-  container.appendChild(weatherInfo);
+): HTMLDivElement {
+  return renderWeatherInfoHelper(location, selectedTemp, onTempChange);
 }
 
 function renderWeatherInfoHelper(
@@ -51,15 +33,11 @@ function renderWeatherInfoHelper(
   selectedTemp: TempOptions,
   onTempChange: (temp: TempOptions) => void
 ): HTMLDivElement {
-  if (!location) {
-    return getLoader();
-  }
-
   const weatherInfo = document.createElement("div");
   weatherInfo.classList.add("weather-container");
 
   const locationName = document.createElement("h2");
-  const uILocation = getWeatherForUi(location, selectedTemp);
+  const uILocation = getWeatherForUi(location!, selectedTemp);
   locationName.textContent = `Weather predication in ${uILocation.name}`;
 
   const days = uILocation.temps.map((weather) => renderDayHelper(weather));

@@ -1,5 +1,3 @@
-$inputWidth: 580px;
-
 .coords-form-container,
 .view-buttons-container {
   display: flex;
@@ -8,7 +6,6 @@ $inputWidth: 580px;
 }
 
 .coords-form-container {
-  width: $inputWidth;
   gap: 16px;
   align-items: flex-end;
 }
