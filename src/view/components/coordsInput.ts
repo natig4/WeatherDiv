@@ -2,13 +2,13 @@ import {
   appendChildrenToParent,
   getInputElement,
   getInputWithLabel,
-  getLocationWeather,
   isNumber,
 } from "../../helpers";
 
 import { LocationFunc } from "../../models";
 
 import "../../css/coords.scss";
+import { getLocationWeather } from "../../service";
 
 type InputState = "error" | "success";
 
