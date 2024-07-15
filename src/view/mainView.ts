@@ -16,6 +16,7 @@ export class View {
   }
 
   set inputs(v: HTMLDivElement | null) {
+    this.inputs && this.container.removeChild(this.inputs);
     this._inputs = v;
   }
 
@@ -24,6 +25,7 @@ export class View {
   }
 
   set weather(v: HTMLDivElement | null) {
+    this.weather && this.container.removeChild(this.weather);
     this._weather = v;
   }
 
@@ -53,10 +55,7 @@ export class View {
     this.state.viewSource = source;
     this.state.selectedLocation = null;
 
-    this.container.removeChild(this.inputs!);
-
     if (this.weather) {
-      this.container.removeChild(this.weather);
       this.weather = null;
     }
 
@@ -65,7 +64,6 @@ export class View {
 
   handleLocationChange(location: SelectedLocation, isLoading = false) {
     this.state.selectedLocation = location;
-    this.weather && this.container.removeChild(this.weather);
 
     const { selectedLocation, selectedTemp } = this.state;
 
