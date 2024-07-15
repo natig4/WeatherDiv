@@ -1,13 +1,12 @@
 import {
   appendChildrenToParent,
   capitalize,
-  generateTemperatureUnitDropdown,
-  getImgByRecommendation,
+  getDropdown,
   getLoader,
-  getWeatherForUi,
 } from "../../helpers";
 import { IDayWeather, SelectedLocation, TempDisplay } from "../../models";
 import "../../css/weather.scss";
+import { getImgByRecommendation, getWeatherForUi } from "../../service";
 
 export function renderWeatherView(
   container: HTMLElement,
@@ -70,7 +69,7 @@ function renderWeatherInfoHelper(
   );
   daysContainer.classList.add("days-container");
 
-  const dropdown = generateTemperatureUnitDropdown(
+  const dropdown = getDropdown(
     ["Celsius", "Fahrenheit"],
     selectedTemp,
     (option) => {

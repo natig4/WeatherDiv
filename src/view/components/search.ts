@@ -4,9 +4,9 @@ import {
   fetchData,
   getInputElement,
   getInputWithLabel,
-  getLocationWeather,
 } from "../../helpers";
 import { ICity, LocationFunc } from "../../models";
+import { getLocationWeather } from "../../service";
 
 export function getSearchInput(
   onLocationChange: LocationFunc,
