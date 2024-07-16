@@ -15,18 +15,20 @@ export class View {
     return this._inputs;
   }
 
-  set inputs(v: HTMLDivElement | null) {
-    this.inputs && this.container.removeChild(this.inputs);
-    this._inputs = v;
+  set inputs(inputsEl: HTMLDivElement | null) {
+    this.replaceElement(this.inputs, inputsEl);
+
+    this._inputs = inputsEl;
   }
 
   get weather(): HTMLDivElement | null {
     return this._weather;
   }
 
-  set weather(v: HTMLDivElement | null) {
-    this.weather && this.container.removeChild(this.weather);
-    this._weather = v;
+  set weather(weatherEl: HTMLDivElement | null) {
+    this.replaceElement(this.weather, weatherEl);
+
+    this._weather = weatherEl;
   }
 
   constructor(container: HTMLElement, apiKey: string) {
@@ -47,18 +49,11 @@ export class View {
       (location: SelectedLocation, isLoading = false) =>
         this.handleLocationChange(location, isLoading)
     );
-
-    this.container.appendChild(this.inputs);
   }
 
   handleViewChange(source: CoordsSource) {
     this.state.viewSource = source;
-    this.state.selectedLocation = null;
-    this.state.isLoading = false;
-
-    if (this.weather) {
-      this.weather = null;
-    }
+    this.resetWeatherView();
 
     this.renderWeatherWidget();
   }
@@ -77,13 +72,28 @@ export class View {
           isLoading,
           (temp: TempOptions) => this.handleTempChange(temp)
         );
-
-    this.container.appendChild(this.weather);
   }
 
   handleTempChange(temp: TempOptions) {
     this.state.selectedTemp = temp;
 
     this.handleLocationChange(this.state.selectedLocation);
+  }
+
+  private resetWeatherView() {
+    this.state.selectedLocation = null;
+    this.state.isLoading = false;
+
+    if (this.weather) {
+      this.weather = null;
+    }
+  }
+
+  private replaceElement(
+    currEl: HTMLDivElement | null,
+    newEl: HTMLDivElement | null
+  ) {
+    currEl && this.container.removeChild(currEl);
+    newEl && this.container.appendChild(newEl);
   }
 }
