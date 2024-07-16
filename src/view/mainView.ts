@@ -54,13 +54,10 @@ export class View {
   handleViewChange(source: CoordsSource) {
     this.state.viewSource = source;
     this.state.selectedLocation = null;
+    this.state.isLoading = false;
 
     if (this.weather) {
       this.weather = null;
-    }
-
-    if (this.state.isLoading) {
-      this.state.loadingWhileChanged = true;
     }
 
     this.renderWeatherWidget();

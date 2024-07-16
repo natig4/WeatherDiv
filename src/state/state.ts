@@ -2,7 +2,6 @@ import { CoordsSource, SelectedLocation, TempOptions } from "../models";
 
 export class AppState {
   private _isLoading = false;
-  private _loadingWhileChanged = false;
   private _viewSource: CoordsSource = "location";
   private _selectedLocation: SelectedLocation = null;
   private _selectedTemp: TempOptions = "Celsius";
@@ -18,17 +17,6 @@ export class AppState {
 
   get isLoading(): boolean {
     return this._isLoading;
-  }
-
-  set loadingWhileChanged(isChanged: boolean) {
-    if (!isChanged) {
-      this.isLoading = false;
-    }
-    this._loadingWhileChanged = isChanged;
-  }
-
-  get loadingWhileChanged(): boolean {
-    return this._loadingWhileChanged;
   }
 
   set viewSource(viewSource: CoordsSource) {

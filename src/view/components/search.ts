@@ -57,8 +57,7 @@ export function getSearchInput(
       onLocationChange(null, true);
       const data = await getLocationWeather(location, state.apiKey);
 
-      if (state.loadingWhileChanged) {
-        state.loadingWhileChanged = false;
+      if (!state.isLoading) {
         return;
       }
 
