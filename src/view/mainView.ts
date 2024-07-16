@@ -11,9 +11,10 @@ import { getWeatherView } from "./components/weather";
 
 export class View {
   private loader = getLoader();
+  private _inputs: ContainerEl = null;
+  private _weather: ContainerEl = null;
+
   container: HTMLElement;
-  _inputs: ContainerEl = null;
-  _weather: ContainerEl = null;
   state: AppState;
 
   get inputs(): ContainerEl {
