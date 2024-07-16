@@ -1,5 +1,10 @@
 import { getLoader } from "../helpers";
-import { CoordsSource, SelectedLocation, TempOptions } from "../models";
+import {
+  ContainerEl,
+  CoordsSource,
+  SelectedLocation,
+  TempOptions,
+} from "../models";
 import { AppState } from "../state/state";
 import { getInputsView } from "./components/inputs";
 import { getWeatherView } from "./components/weather";
@@ -7,25 +12,25 @@ import { getWeatherView } from "./components/weather";
 export class View {
   private loader = getLoader();
   container: HTMLElement;
-  _inputs: HTMLDivElement | null = null;
-  _weather: HTMLDivElement | null = null;
+  _inputs: ContainerEl = null;
+  _weather: ContainerEl = null;
   state: AppState;
 
-  get inputs(): HTMLDivElement | null {
+  get inputs(): ContainerEl {
     return this._inputs;
   }
 
-  set inputs(inputsEl: HTMLDivElement | null) {
+  set inputs(inputsEl: ContainerEl) {
     this.replaceElement(this.inputs, inputsEl);
 
     this._inputs = inputsEl;
   }
 
-  get weather(): HTMLDivElement | null {
+  get weather(): ContainerEl {
     return this._weather;
   }
 
-  set weather(weatherEl: HTMLDivElement | null) {
+  set weather(weatherEl: ContainerEl) {
     this.replaceElement(this.weather, weatherEl);
 
     this._weather = weatherEl;
@@ -89,10 +94,7 @@ export class View {
     }
   }
 
-  private replaceElement(
-    currEl: HTMLDivElement | null,
-    newEl: HTMLDivElement | null
-  ) {
+  private replaceElement<T extends ContainerEl>(currEl: T, newEl: T) {
     currEl && this.container.removeChild(currEl);
     newEl && this.container.appendChild(newEl);
   }

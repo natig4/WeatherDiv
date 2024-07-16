@@ -4,6 +4,7 @@ export const API_TIMEFRAME = 14;
 export type InputType = "text" | "search" | "radio";
 export type CoordsSource = "location" | "coordinates";
 export type TempOptions = "Celsius" | "Fahrenheit";
+export type ContainerEl = HTMLDivElement | null;
 
 export interface ICity {
   lat: string;
