@@ -104,7 +104,6 @@ async function handleSearch(query: string, resultsContainer: HTMLDivElement) {
 function getLocationsHtml(locations: ICity[], p: HTMLParagraphElement): string {
   return locations
     .map(({ lat, lon, display_name, name }) => {
-      p.cloneNode();
       p.dataset.lat = lat;
       p.dataset.lon = lon;
       p.dataset.name = name;
@@ -120,10 +119,9 @@ function getResultsNotFoundP(
   p: HTMLParagraphElement,
   text: string = `Couldn't find location, search for another one`
 ): string {
-  const noResults = p.cloneNode() as HTMLParagraphElement;
-  noResults.innerText = text;
-  noResults.classList.add("not-found");
-  return noResults.outerHTML;
+  p.innerText = text;
+  p.classList.add("not-found");
+  return p.outerHTML;
 }
 
 function handleResultClick(
