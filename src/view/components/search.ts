@@ -33,13 +33,9 @@ export function getSearchInput(
   );
   searchContainer.classList.add("search-container");
 
-  const resultEl = document.createElement("p");
-
-  resultEl.classList.add("result-container");
-
   const debouncedSearch = debounce(async (query: string) => {
     resultsDiv.classList.remove("hidden");
-    handleSearch(query, resultEl, resultsDiv);
+    handleSearch(query, resultsDiv);
   }, 300);
 
   resultsDiv.addEventListener("click", async (ev) => {
@@ -86,21 +82,20 @@ function hideResults(resultsDiv: HTMLDivElement) {
   resultsDiv.classList.add("hidden");
 }
 
-async function handleSearch(
-  query: string,
-  result: HTMLParagraphElement,
-  resultsContainer: HTMLDivElement
-) {
+async function handleSearch(query: string, resultsContainer: HTMLDivElement) {
+  const resultEl = document.createElement("p");
+  resultEl.classList.add("result-container");
+
   if (query.length > 2) {
     const locations = await searchLocation(query);
     const locationsHtml = locations.length
-      ? getLocationsHtml(locations, result)
-      : getResultsNotFoundP(result);
+      ? getLocationsHtml(locations, resultEl)
+      : getResultsNotFoundP(resultEl);
 
     resultsContainer.innerHTML = locationsHtml;
   } else {
     resultsContainer.innerHTML = getResultsNotFoundP(
-      result,
+      resultEl,
       "Please search for more than 2 characters"
     );
   }
@@ -114,7 +109,6 @@ function getLocationsHtml(locations: ICity[], p: HTMLParagraphElement): string {
       p.dataset.lon = lon;
       p.dataset.name = name;
       p.innerText = display_name;
-      p.style.cursor = "pointer";
 
       return p.outerHTML;
     })
@@ -128,6 +122,7 @@ function getResultsNotFoundP(
 ): string {
   const noResults = p.cloneNode() as HTMLParagraphElement;
   noResults.innerText = text;
+  noResults.classList.add("not-found");
   return noResults.outerHTML;
 }
 
