@@ -40,25 +40,26 @@ export function getSearchInput(
 
   resultsDiv.addEventListener("click", async (ev) => {
     const res = handleResultClick(ev);
-
-    if (res) {
-      input.value = res.name;
-      resultsDiv.innerHTML = "";
-      const location = {
-        lat: +res.lat.toFixed(2),
-        lon: +res.lon.toFixed(2),
-        name: res.name,
-      };
-      hideResults(resultsDiv);
-      onLocationChange(null, true);
-      const data = await getLocationWeather(location, state.apiKey);
-
-      if (!state.isLoading) {
-        return;
-      }
-
-      onLocationChange(data);
+    if (!res) {
+      return;
     }
+
+    input.value = res.name;
+    resultsDiv.innerHTML = "";
+    const location = {
+      lat: +res.lat,
+      lon: +res.lon,
+      name: res.name,
+    };
+    hideResults(resultsDiv);
+    onLocationChange(null, true);
+    const data = await getLocationWeather(location, state.apiKey);
+
+    if (!state.isLoading) {
+      return;
+    }
+
+    onLocationChange(data);
   });
 
   input.addEventListener("input", () => {
